@@ -12,27 +12,27 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2022-10-01</span>
+						<span>2024-03-07</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
-						<span>东莞</span>
+						<span>山东</span>
 					</div>
 				</el-card>
 				<el-card shadow="hover" style="height: 252px">
 					<template #header>
 						<div class="clearfix">
-							<span>语言详情</span>
+							<span>用户首选</span>
 						</div>
 					</template>
-					Vue
+					派送速度
 					<el-progress :percentage="79.4" color="#42b983"></el-progress>
-					TypeScript
-					<el-progress :percentage="14" color="#f1e05a"></el-progress>
-					CSS
-					<el-progress :percentage="5.6"></el-progress>
-					HTML
-					<el-progress :percentage="1" color="#f56c6c"></el-progress>
+					服务态度
+					<el-progress :percentage="62.1" color="#f1e05a"></el-progress>
+					派送范围
+					<el-progress :percentage="10.6"></el-progress>
+					派送方式
+					<el-progress :percentage="3.1" color="#f56c6c"></el-progress>
 				</el-card>
 			</el-col>
 			<el-col :span="16">
@@ -42,7 +42,7 @@
 							<div class="grid-content grid-con-1">
 								<el-icon class="grid-con-icon"><User /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">1234</div>
+									<div class="grid-num">3129</div>
 									<div>用户访问量</div>
 								</div>
 							</div>
@@ -53,7 +53,7 @@
 							<div class="grid-content grid-con-2">
 								<el-icon class="grid-con-icon"><ChatDotRound /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">321</div>
+									<div class="grid-num">10</div>
 									<div>系统消息</div>
 								</div>
 							</div>
@@ -64,8 +64,8 @@
 							<div class="grid-content grid-con-3">
 								<el-icon class="grid-con-icon"><Goods /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">5000</div>
-									<div>商品数量</div>
+									<div class="grid-num">182</div>
+									<div>订单数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -127,69 +127,61 @@ const role: string = name === 'admin' ? '超级管理员' : '普通用户';
 const options = {
 	type: 'bar',
 	title: {
-		text: '最近一周各品类销售图'
+		text: '最近一周用户满意和代取快递数量'
 	},
 	xRorate: 25,
 	labels: ['周一', '周二', '周三', '周四', '周五'],
 	datasets: [
 		{
-			label: '家电',
-			data: [234, 278, 270, 190, 230]
+			label: '满意数量',
+			data: [234, 278, 230, 190, 223]
 		},
 		{
-			label: '百货',
-			data: [164, 178, 190, 135, 160]
-		},
-		{
-			label: '食品',
-			data: [144, 198, 150, 235, 120]
+			label: '代取数量',
+			data: [244, 298, 250, 235, 262]
 		}
 	]
 };
 const options2 = {
 	type: 'line',
 	title: {
-		text: '最近几个月各品类销售趋势图'
+		text: '最近几个月用户和骑手注册数量'
 	},
-	labels: ['6月', '7月', '8月', '9月', '10月'],
+	labels: ['11月', '12月', '1月', '2月', '3月'],
 	datasets: [
 		{
-			label: '家电',
+			label: '用户',
 			data: [234, 278, 270, 190, 230]
 		},
 		{
-			label: '百货',
+			label: '骑手',
 			data: [164, 178, 150, 135, 160]
 		},
-		{
-			label: '食品',
-			data: [74, 118, 200, 235, 90]
-		}
 	]
 };
 const todoList = reactive([
 	{
-		title: '今天要修复100个bug',
+		title: '解决用户与骑手矛盾',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '处理丢件问题',
 		status: false
 	},
 	{
-		title: '今天要写100行代码加几个bug吧',
+		title: '用户提出需丰富功能',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '解决用户与骑手矛盾',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '解决用户与骑手矛盾',
 		status: true
 	},
 	{
-		title: '今天要写100行代码加几个bug吧',
+		title: '解决用户与骑手矛盾',
 		status: true
 	}
 ]);
