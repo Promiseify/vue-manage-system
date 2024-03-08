@@ -21,6 +21,7 @@ const routes: RouteRecordRaw[] = [
                     title: '系统首页',
                     permiss: '1',
                 },
+                // 魔法注释 更好的缓存、调试友好、优化性能
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
             {

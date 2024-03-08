@@ -62,33 +62,33 @@ const items = [
         title: '系统首页',
         permiss: '1',
     },
-    {
-        icon: 'Calendar',
-        index: '1',
-        title: '表格相关',
-        permiss: '2',
-        subs: [
-            {
-                index: '/table',
-                title: '常用表格',
-                permiss: '2',
-            },
-            {
-                index: '/import',
-                title: '导入Excel',
-                permiss: '2',
-            },
-            {
-                index: '/export',
-                title: '导出Excel',
-                permiss: '2',
-            },
-        ],
-    },
+    // {
+    //     icon: 'Calendar',
+    //     index: '1',
+    //     title: '表格相关',
+    //     permiss: '2',
+    //     subs: [
+    //         {
+    //             index: '/table',
+    //             title: '常用表格',
+    //             permiss: '2',
+    //         },
+    //         {
+    //             index: '/import',
+    //             title: '导入Excel',
+    //             permiss: '2',
+    //         },
+    //         {
+    //             index: '/export',
+    //             title: '导出Excel',
+    //             permiss: '2',
+    //         },
+    //     ],
+    // },
     {
         icon: 'DocumentCopy',
         index: '/tabs',
-        title: 'tab选项卡',
+        title: '通知',
         permiss: '3',
     },
     {
@@ -135,7 +135,7 @@ const items = [
     {
         icon: 'PieChart',
         index: '/charts',
-        title: 'schart图表',
+        title: 'echart图表',
         permiss: '11',
     },
     {
