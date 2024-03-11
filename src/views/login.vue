@@ -26,7 +26,6 @@
                     <el-button type="primary" @click="submitForm(login)">登录</el-button>
                 </div>
                 <el-checkbox class="login-tips" v-model="checked" label="记住密码" size="large" />
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
         </div>
     </div>
