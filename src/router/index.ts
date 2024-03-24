@@ -25,6 +25,16 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
             {
+                path: '/dataScreen',
+                name: 'dataScreen',
+                meta: {
+                    title: '可视化大屏',
+                    icon: 'Histogram',
+                    permiss: '2',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/dataScreen/index.vue'),
+            },
+            {
                 path: '/charts',
                 name: 'basecharts',
                 meta: {

@@ -63,6 +63,12 @@ const items = [
         permiss: '1',
     },
     {
+        icon: 'Histogram',
+        index: '/dataScreen',
+        title: '可视化大屏',
+        permiss: '2',
+    },
+    {
         icon: 'DocumentCopy',
         index: '/tabs',
         title: '自定义通知',

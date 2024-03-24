@@ -103,6 +103,7 @@ const handleTags = (command: string) => {
 	background: #fff;
 	padding-right: 120px;
 	box-shadow: 0 5px 10px #ddd;
+	z-index: 100;
 }
 
 .tags ul {

@@ -9,6 +9,9 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 // 自动导入的elmentplus的组件库
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+
+const path = require('path');
+
 export default defineConfig({
 	base: './',
 	plugins: [
@@ -24,6 +27,12 @@ export default defineConfig({
 	// 这个属性用于提前优化依赖项,Vite 会在服务器启动时预构建这个模块以提高页面加载速度
 	optimizeDeps: {
 		// 表示了一个 JavaScript 图表库。
-		include: ['schart.js'] 
+		include: ['schart.js']
+	},
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src'), // Alias '@' to the src directory
+			// You can add more aliases here
+		}
 	}
 });
