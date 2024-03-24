@@ -15,7 +15,7 @@ export const columns = [
     },
   },
   {
-    name: 'sex',
+    name: 'orderType',
     label: '订单类型',
     slot: true,
     search: true,
@@ -47,7 +47,7 @@ export const columns = [
   {
     name: 'admin',
     label: '账号',
-    search: true,
+    // search: true,
     valueType: 'input',
     span: 8,
     attrs: {
@@ -66,7 +66,7 @@ export const columns = [
     },
   },
   {
-    name: 'age',
+    name: 'time',
     label: '派送时间',
     align: 'right',
 
@@ -87,10 +87,10 @@ export const columns = [
   //   name: 'province',
   //   label: '省份',
   // },
-  // {
-  //   name: 'city',
-  //   label: '城市',
-  // },
+  {
+    name: 'city',
+    label: '城市',
+  },
   // {
   //   name: 'zip',
   //   label: '邮编',
@@ -100,6 +100,6 @@ export const columns = [
     slot: true,
     fixed: 'right',
     label: '操作',
-    width: 200,
+    width: 120,
   },
 ]

@@ -18,9 +18,9 @@
           >
         </div>
       </template>
-      <template #sex="scope">{{ scope.row.sex ? '外卖' : '快递' }}</template>
+      <template #orderType="scope">{{ scope.row.orderType ? '外卖' : '快递' }}</template>
       <template #operation="scope">
-        <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
+        <!-- <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button> -->
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
       </template>
     </PropTable>
@@ -30,8 +30,8 @@
         <el-form-item label="用户名称" prop="name">
           <el-input v-model="ruleForm.name" />
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-radio-group v-model="ruleForm.sex">
+        <el-form-item label="订单类型" prop="orderType">
+          <el-radio-group v-model="ruleForm.orderType">
             <el-radio :label="1">外卖</el-radio>
             <el-radio :label="0">快递</el-radio>
           </el-radio-group>
@@ -59,20 +59,18 @@
   const appContainer = ref(null)
   import PropTable from '@/components/Table/PropTable/index.vue'
   const data = []
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 20; i++) {
     data.push({
-      date: '2016-05-02',
-      name: '王五' + i,
-      price: 1 + i,
-      province: '潍坊理工',
+      date: '2024-03-24',
+      name: '小明' + i,
+      price: 10 + i,
       admin: 'admin',
-      sex: i % 2 ? 1 : 0,
+      orderType: i % 2 ? 1 : 0,
       checked: true,
       id: i + 1,
-      age: 0,
-      city: '普陀区',
+      time: (i + 5) + '分钟',
+      city: '潍坊',
       address: '潍坊理工',
-      zip: 200333,
     })
   }
   let baseColumns = reactive(columns)
@@ -82,7 +80,7 @@
   const ruleFormRef = ref<FormInstance>()
   const ruleForm = reactive({
     name: '',
-    sex: null,
+    orderType: null,
     price: null,
   })
 
@@ -92,10 +90,10 @@
       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
     ],
     price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
-    sex: [
+    orderType: [
       {
         required: true,
-        message: '请选择性别',
+        message: '请选择订单类型',
         trigger: 'change',
       },
     ],
@@ -112,11 +110,9 @@
         let obj = {
           id: Date.now(),
           ...ruleForm,
-          age: 0,
-          city: '普陀区',
+          time: '',
+          city: '潍坊',
           address: '潍坊理工',
-          zip: 200333,
-          province: '潍坊理工',
           admin: 'admin',
           date: dayjs().format('YYYY-MM-DD'),
         }
@@ -127,7 +123,7 @@
           list.value.forEach((item) => {
             if (item.id === rowObj.value.id) {
               item.name = obj.name
-              item.sex = obj.sex
+              item.orderType = obj.orderType
               item.price = obj.price
             }
           })
@@ -170,7 +166,7 @@
     rowObj.value = row
     dialogVisible.value = true
     ruleForm.name = row.name
-    ruleForm.sex = row.sex
+    ruleForm.orderType = row.orderType
     ruleForm.price = row.price
   }
 
