@@ -74,6 +74,12 @@ const items = [
         title: '自定义通知',
         permiss: '3',
     },
+    {
+        icon: 'School',
+        index: '/order',
+        title: '订单信息',
+        permiss: '3',
+    },
     // {
     //     icon: 'Setting',
     //     index: '/icon',

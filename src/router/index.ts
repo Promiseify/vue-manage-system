@@ -29,10 +29,18 @@ const routes: RouteRecordRaw[] = [
                 name: 'dataScreen',
                 meta: {
                     title: '可视化大屏',
-                    icon: 'Histogram',
                     permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */  '../views/dataScreen/index.vue'),
+            },
+            {
+                path: '/order',
+                name: 'order',
+                meta: {
+                    title: '订单信息',
+                    permiss: '3',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/order/index.vue'),
             },
             {
                 path: '/charts',
