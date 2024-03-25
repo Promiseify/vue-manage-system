@@ -8,23 +8,23 @@
   const chartsRef = ref<HTMLElement | null>()
   var trafficWay = [
     {
-      name: 'Ⅰ类',
+      name: '快递',
       value: 20,
     },
     {
-      name: 'Ⅱ类',
+      name: '外卖',
       value: 20,
     },
     {
-      name: 'Ⅲ类',
+      name: '医药',
       value: 20,
     },
-    {
-      name: 'Ⅳ类',
-      value: 20,
-    },
-    { name: 'Ⅴ类', value: 20 },
-    { name: '劣Ⅴ类', value: 20 },
+    // {
+    //   name: 'Ⅳ类',
+    //   value: 20,
+    // },
+    // { name: 'Ⅴ类', value: 20 },
+    // { name: '劣Ⅴ类', value: 20 },
   ]
 
   var data = []
@@ -104,7 +104,7 @@
     color: color,
     title: [
       {
-        text: '水质监测',
+        text: '待取类型',
         top: '44%',
         textAlign: 'center',
         left: '49.50%',
@@ -116,40 +116,40 @@
           fontWeight: '400',
         },
       },
-      {
-        text: '水环境监测站',
-        top: '49%',
-        textAlign: 'center',
-        left: '49.50%',
-        textStyle: {
-          color: '#fff',
-          fontSize: 20,
-          fontWeight: '400',
-        },
-      },
-      {
-        text: '9',
-        top: '53%',
-        textAlign: 'center',
-        left: '48%',
-        textStyle: {
-          color: '#f6ea2f',
-          fontSize: 25,
-          fontWeight: '800',
-          fontStyle: 'italic',
-        },
-      },
-      {
-        text: '个',
-        top: '53.5%',
-        textAlign: 'center',
-        left: '50.5%',
-        textStyle: {
-          color: '#fff',
-          fontSize: 16,
-          fontWeight: '400',
-        },
-      },
+      // {
+      //   text: '普通用户',
+      //   top: '49%',
+      //   textAlign: 'center',
+      //   left: '49.50%',
+      //   textStyle: {
+      //     color: '#fff',
+      //     fontSize: 20,
+      //     fontWeight: '400',
+      //   },
+      // },
+      // {
+      //   text: '9',
+      //   top: '53%',
+      //   textAlign: 'center',
+      //   left: '48%',
+      //   textStyle: {
+      //     color: '#f6ea2f',
+      //     fontSize: 25,
+      //     fontWeight: '800',
+      //     fontStyle: 'italic',
+      //   },
+      // },
+      // {
+      //   text: '个',
+      //   top: '53.5%',
+      //   textAlign: 'center',
+      //   left: '50.5%',
+      //   textStyle: {
+      //     color: '#fff',
+      //     fontSize: 16,
+      //     fontWeight: '400',
+      //   },
+      // },
     ],
     tooltip: {
       show: false,

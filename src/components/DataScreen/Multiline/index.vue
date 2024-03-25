@@ -68,7 +68,7 @@ const options = {
   ],
   yAxis: [
     {
-      name: '单位/件',
+      name: '次数',
       axisTick: {
         show: false,
       },
