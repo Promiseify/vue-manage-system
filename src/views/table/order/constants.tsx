@@ -5,13 +5,13 @@ export const columns = [
     fixed: 'left',
   },
   {
-    name: 'name',
-    label: '用户名称',
+    name: 'orderId',
+    label: '用户ID',
     search: true,
     valueType: 'input',
     span: 8,
     attrs: {
-      placeholder: '请输入用户名称',
+      placeholder: '请输入用户ID',
     },
   },
   {
@@ -26,14 +26,14 @@ export const columns = [
         label: '外卖',
       },
       {
-        value: 0,
+        value: 2,
         label: '快递',
       },
     ],
     valueType: 'select',
   },
   {
-    name: 'price',
+    name: 'orderPrice',
     label: '单价',
     search: true,
     sortable: true,
@@ -45,8 +45,8 @@ export const columns = [
   },
   
   {
-    name: 'admin',
-    label: '账号',
+    name: 'orderPlace',
+    label: '取货地址',
     // search: true,
     valueType: 'input',
     span: 8,
@@ -55,7 +55,7 @@ export const columns = [
     },
   },
   {
-    name: 'address',
+    name: 'orderAddress',
     label: '地址',
     search: true,
     valueType: 'input',
@@ -66,31 +66,40 @@ export const columns = [
     },
   },
   {
-    name: 'time',
+    name: 'orderTime',
     label: '派送时间',
     align: 'right',
 
     span: 8,
   },
   {
-    name: 'date',
-    label: '日期',
+    name: 'orderRemark',
+    label: '备注',
     sorter: true,
-    search: true,
     valueType: 'input',
-    span: 8,
     attrs: {
       placeholder: '请输入',
     },
   },
-  // {
-  //   name: 'province',
-  //   label: '省份',
-  // },
   {
-    name: 'city',
-    label: '城市',
+    name: 'orderStatus',
+    label: '订单状态',
+    span: 4,
   },
+  {
+    name: 'orderUserId',
+    label: '用户ID',
+    span: 4,
+  },
+  {
+    name: 'orderManId',
+    label: '代收员ID',
+    span: 4,
+  },
+  // {
+  //   name: 'city',
+  //   label: '城市',
+  // },
   // {
   //   name: 'zip',
   //   label: '邮编',
