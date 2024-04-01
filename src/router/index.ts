@@ -24,15 +24,15 @@ const routes: RouteRecordRaw[] = [
                 // 魔法注释 更好的缓存、调试友好、优化性能
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
-            {
-                path: '/dataScreen',
-                name: 'dataScreen',
-                meta: {
-                    title: '可视化大屏',
-                    permiss: '2',
-                },
-                component: () => import(/* webpackChunkName: "dashboard" */  '../views/dataScreen/index.vue'),
-            },
+            // {
+            //     path: '/dataScreen',
+            //     name: 'dataScreen',
+            //     meta: {
+            //         title: '可视化大屏',
+            //         permiss: '2',
+            //     },
+            //     component: () => import(/* webpackChunkName: "dashboard" */  '../views/dataScreen/index.vue'),
+            // },
             {
                 path: '/order',
                 name: 'order',

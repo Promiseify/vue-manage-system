@@ -45,7 +45,7 @@
   </div>
 </template>
 <script lang="ts" setup name="order">
-import { ref, reactive, onMounted, nextTick, watchEffect } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import * as dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance } from 'element-plus'

@@ -62,12 +62,12 @@ const items = [
         title: '系统首页',
         permiss: '1',
     },
-    {
-        icon: 'Histogram',
-        index: '/dataScreen',
-        title: '可视化大屏',
-        permiss: '2',
-    },
+    // {
+    //     icon: 'Histogram',
+    //     index: '/dataScreen',
+    //     title: '可视化大屏',
+    //     permiss: '2',
+    // },
     {
         icon: 'DocumentCopy',
         index: '/tabs',
