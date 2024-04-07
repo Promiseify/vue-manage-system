@@ -38,7 +38,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleClose(ruleFormRef)">确定</el-button>
+          <el-button type="primary" @click="handleClose()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -46,7 +46,7 @@
 </template>
 <script lang="ts" setup name="order">
 import { ref, reactive, onMounted, nextTick } from 'vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import { columns } from './constants'
@@ -108,7 +108,7 @@ const handleClose = async () => {
         ElMessage.success('添加成功')
       } else {
         list.value.forEach((item) => {
-          if (item.id === rowObj.value?.id) {
+          if (item.id === (rowObj.value as any).id) {
             item.name = obj.name
             item.orderType = obj.orderType
             item.price = obj.price
@@ -166,7 +166,7 @@ const del = (row) => {
     draggable: true,
   })
     .then(() => {
-      list.value = list.value.filter((item) => item.id !== row.id)
+      // list.value = list.value.filter((item) => item.id !== row.id)
       ElMessage.success('删除成功')
       loading.value = true
       setTimeout(() => {
