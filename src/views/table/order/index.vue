@@ -4,17 +4,21 @@
       @on-submit="onSubmit">
       <template #btn>
         <div style="display: flex; justify-content: flex-end">
-          <el-button type="primary" @click="add"><el-icon>
+          <el-button type="primary" @click="add">
+            <el-icon>
               <plus />
-            </el-icon> 添加</el-button>
-          <el-button type="danger" @click="batchDelete"><el-icon>
+            </el-icon> 添加
+          </el-button>
+          <el-button type="danger" @click="batchDelete">
+            <el-icon>
               <delete />
-            </el-icon>删除</el-button>
+            </el-icon> 删除
+          </el-button>
         </div>
       </template>
-      <template #orderType="scope">{{ scope.row.orderType ? '外卖' : '快递' }}</template>
+      <template #orderType="scope">{{ orderTypeDict(scope.row.orderType) }}</template>
       <template #operation="scope">
-        <!-- <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button> -->
+        <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
       </template>
     </PropTable>
@@ -28,7 +32,7 @@
         <el-form-item label="订单类型" prop="orderType">
           <el-radio-group v-model="ruleForm.orderType">
             <el-radio :label="1">外卖</el-radio>
-            <el-radio :label="0">快递</el-radio>
+            <el-radio :label="2">快递</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="价格" prop="price">
@@ -47,16 +51,18 @@
 <script lang="ts" setup name="order">
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import dayjs from 'dayjs'
+import axios from 'axios'
+
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance } from 'element-plus'
+import PropTable from '@/components/Table/PropTable/index.vue'
 import { columns } from './constants'
+
 const loading = ref(true)
 const appContainer = ref(null)
-import PropTable from '@/components/Table/PropTable/index.vue'
-import axios from 'axios'
-let data = ref([]);
 let list = ref([])
 let baseColumns = reactive(columns)
+
 axios("http://localhost:10081/order/match").then(res => {
   if (res.data.code == 200) {
     list = res.data.data
@@ -90,6 +96,18 @@ const dialogVisible = ref(false)
 const title = ref('新增')
 const rowObj = ref({})
 const selectObj = ref([])
+
+// 判断订单类型
+const orderTypeDict = (orderType) => {
+  switch (orderType) {
+    case 1:
+      return "外卖"
+    case 2:
+      return "快递"
+    case 3:
+      return "其他"
+  }
+}
 
 const handleClose = async () => {
   await ruleFormRef.value.validate((valid, fields) => {
@@ -139,8 +157,17 @@ const batchDelete = () => {
     draggable: true,
   })
     .then(() => {
-      ElMessage.success('模拟删除成功')
-      list.value = list.value.concat([])
+      const orderIds = selectObj.value.map(item => item.orderId)
+      axios({
+        method: 'delete',
+        url: 'http://localhost:10081/order/deleteOrders',
+        data: orderIds
+      }).then(res => {
+        if (res.data.code == 200) {
+          ElMessage.success(res.data.msg)
+          onSubmit({});
+        }
+      })
     })
     .catch(() => { })
 }
@@ -158,7 +185,6 @@ const edit = (row) => {
 }
 
 const del = (row) => {
-  console.log('row==', row)
   ElMessageBox.confirm('你确定要删除当前项吗?', '温馨提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -166,31 +192,39 @@ const del = (row) => {
     draggable: true,
   })
     .then(() => {
-      // list.value = list.value.filter((item) => item.id !== row.id)
-      ElMessage.success('删除成功')
-      loading.value = true
-      setTimeout(() => {
-        loading.value = false
-      }, 500)
+      axios({
+        method: 'delete',
+        url: 'http://localhost:10081/order/' + row.orderId,
+      }).then(res => {
+        const { data } = res
+        if (data.code == 200) {
+          ElMessage.success('删除成功')
+          onSubmit({});
+        }
+      })
+
     })
     .catch(() => { })
 }
 
 const reset = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 500)
-  ElMessage.success('触发重置方法')
+  onSubmit({})
+  ElMessage.success('重置成功')
 }
 
 const onSubmit = (val) => {
-  console.log('val===', val)
-  ElMessage.success('触发查询方法')
   loading.value = true
+
+  axios.get("http://localhost:10081/order/match", {
+    params: val
+  }).then(res => {
+    if (res.data.code == 200) {
+      list = res.data.data
+    }
+  })
   setTimeout(() => {
     loading.value = false
-  }, 500)
+  }, 500);
 }
 
 onMounted(() => {

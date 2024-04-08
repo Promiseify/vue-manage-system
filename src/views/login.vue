@@ -11,12 +11,8 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input
-                        type="password"
-                        placeholder="password"
-                        v-model="param.password"
-                        @keyup.enter="submitForm(login)"
-                    >
+                    <el-input type="password" placeholder="password" v-model="param.password"
+                        @keyup.enter="submitForm(login)">
                         <template #prepend>
                             <el-button :icon="Lock"></el-button>
                         </template>
@@ -33,12 +29,14 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
+import axios from 'axios'
 import { useTagsStore } from '../store/tags';
 import { usePermissStore } from '../store/permiss';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import { Lock, User } from '@element-plus/icons-vue';
+
 
 interface LoginInfo {
     username: string;
@@ -69,18 +67,25 @@ const permiss = usePermissStore();
 const login = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
-    formEl.validate((valid: boolean) => {
+    formEl.validate(async (valid: boolean) => {
         if (valid) {
-            ElMessage.success('登录成功');
-            localStorage.setItem('ms_username', param.username);
-            const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
-            permiss.handleSet(keys);
-            localStorage.setItem('ms_keys', JSON.stringify(keys));
-            router.push('/');
-            if (checked.value) {
-                localStorage.setItem('login-param', JSON.stringify(param));
+            const { data } = await axios.post('http://localhost:10081/sysLogin', param)
+            if (data.code == 200) {
+                const userInfo = data.data
+                ElMessage.success(data.msg);
+                localStorage.setItem('ms_username', userInfo.username);
+                const keys = permiss.defaultList[userInfo.username.includes('admin') ? 'admin' : 'user'];
+                permiss.handleSet(keys);
+                localStorage.setItem('ms_keys', JSON.stringify(keys));
+                router.push('/');
+                if (checked.value) {
+                    localStorage.setItem('login-param', JSON.stringify(userInfo));
+                } else {
+                    localStorage.removeItem('login-param');
+                }
             } else {
-                localStorage.removeItem('login-param');
+                ElMessage.error('登录失败');
+                return false;
             }
         } else {
             ElMessage.error('登录失败');
@@ -103,6 +108,7 @@ tags.clearTags();
     background-image: url(../assets/img/login-bg.jpg);
     background-size: 100%;
 }
+
 .ms-title {
     line-height: 50px;
     text-align: center;
@@ -111,22 +117,27 @@ tags.clearTags();
     font-weight: bold;
     padding-top: 10px;
 }
+
 .ms-login {
     width: 350px;
     border-radius: 5px;
     background: #fff;
 }
+
 .ms-content {
     padding: 10px 30px 30px;
 }
+
 .login-btn {
     text-align: center;
 }
+
 .login-btn button {
     width: 100%;
     height: 36px;
     margin-bottom: 10px;
 }
+
 .login-tips {
     font-size: 12px;
     line-height: 30px;

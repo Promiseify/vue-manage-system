@@ -1,7 +1,7 @@
 <template>
   <div class="zb-pro-table">
     <div class="header">
-      <SearchForm :columns="baseFormColumns" @submit="onSubmit" />
+      <SearchForm :columns="baseFormColumns" @submit="onSubmit" @reset="reset" />
     </div>
 
     <!----------底部---------------------->
@@ -48,10 +48,13 @@
 <script lang="ts" setup>
   import { computed, ref } from 'vue'
   import SearchForm from '@/components/SearchForm/index.vue'
+
   import { ElMessage, ElMessageBox } from 'element-plus'
   import type { FormInstance } from 'element-plus'
+
   const ruleFormRef = ref<FormInstance>()
   const emit = defineEmits(['reset', 'onSubmit', 'selection-change'])
+
   let props = defineProps({
     columns: {
       type: Array,
@@ -116,8 +119,8 @@
   const formSearchData = ref(search)
   const formInline = reactive(obj)
 
-  const onSubmit = () => {
-    emit('onSubmit', formInline)
+  const onSubmit = (searchParams) => {
+    emit('onSubmit', searchParams)
   }
 
   const reset = (formEl: FormInstance | undefined) => {
@@ -126,20 +129,8 @@
     })
     emit('reset')
   }
-  const deleteAction = (row) => {
-    ElMessageBox.confirm('你确定要删除当前项吗?', '温馨提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-      draggable: true,
-    })
-      .then(() => {
-        list.value = list.value.filter((item) => item.id !== row.id)
-        ElMessage.success('删除成功')
-      })
-      .catch(() => {})
-  }
 </script>
+
 <style scoped lang="scss">
   .edit-input {
     padding-right: 100px;

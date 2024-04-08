@@ -35,80 +35,54 @@ export const columns = [
   {
     name: 'orderPrice',
     label: '单价',
-    search: true,
-    sortable: true,
-    valueType: 'input',
-    span: 8,
-    attrs: {
-      placeholder: '请输入价格',
-    },
   },
-  
+
   {
     name: 'orderPlace',
     label: '取货地址',
-    // search: true,
-    valueType: 'input',
-    span: 8,
-    attrs: {
-      placeholder: '请输入',
-    },
+    width: 160,
   },
   {
     name: 'orderAddress',
     label: '地址',
-    search: true,
-    valueType: 'input',
-    width: 180,
-    span: 8,
-    attrs: {
-      placeholder: '请输入',
-    },
   },
   {
     name: 'orderTime',
     label: '派送时间',
     align: 'right',
-
-    span: 8,
+    width: 160,
   },
   {
     name: 'orderRemark',
     label: '备注',
-    sorter: true,
-    valueType: 'input',
-    attrs: {
-      placeholder: '请输入',
-    },
+    width: 160,
   },
   {
     name: 'orderStatus',
     label: '订单状态',
-    span: 4,
+    width: 80,
   },
   {
     name: 'orderUserId',
     label: '用户ID',
-    span: 4,
+    width: 80,
   },
   {
     name: 'orderManId',
     label: '代收员ID',
-    span: 4,
+    width: 100,
+    search: true,
+    valueType: 'input',
+    span: 8,
+    attrs: {
+      placeholder: '请输入代收员ID',
+    },
   },
-  // {
-  //   name: 'city',
-  //   label: '城市',
-  // },
-  // {
-  //   name: 'zip',
-  //   label: '邮编',
-  // },
   {
     name: 'operation',
     slot: true,
     fixed: 'right',
     label: '操作',
-    width: 120,
+    width: 170,
   },
 ]
