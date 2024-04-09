@@ -80,6 +80,18 @@ const items = [
         title: '订单信息',
         permiss: '3',
     },
+    {
+        icon: 'Memo',
+        index: '/users',
+        title: '用户信息',
+        permiss: '4',
+    },
+    {
+        icon: 'Tickets',
+        index: '/courier',
+        title: '配送员信息',
+        permiss: '5',
+    },
     // {
     //     icon: 'Setting',
     //     index: '/icon',
