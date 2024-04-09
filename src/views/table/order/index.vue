@@ -26,17 +26,40 @@
     <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
-        <el-form-item label="用户名称" prop="name">
-          <el-input v-model="ruleForm.name" />
-        </el-form-item>
         <el-form-item label="订单类型" prop="orderType">
           <el-radio-group v-model="ruleForm.orderType">
-            <el-radio :label="1">外卖</el-radio>
-            <el-radio :label="2">快递</el-radio>
+            <el-radio :value="1">外卖</el-radio>
+            <el-radio :value="2">快递</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="ruleForm.price" />
+        <el-form-item label="订单价格" prop="orderPrice">
+          <el-input v-model="ruleForm.orderPrice" />
+        </el-form-item>
+        <el-form-item label="取货地址" prop="orderPlace">
+          <el-input v-model="ruleForm.orderPlace" />
+        </el-form-item>
+        <el-form-item label="收货地址" prop="orderAddress">
+          <el-input v-model="ruleForm.orderAddress" />
+        </el-form-item>
+        <el-form-item label="派送时间" prop="orderTime">
+          <el-date-picker v-model="ruleForm.orderTime" type="datetime" placeholder="请选择派送时间" />
+          <!-- <el-input v-model="ruleForm.orderTime" /> -->
+        </el-form-item>
+        <el-form-item label="备注" prop="orderRemark">
+          <el-input v-model="ruleForm.orderRemark" />
+        </el-form-item>
+        <el-form-item label="订单状态" prop="orderStatus">
+          <el-radio-group v-model="ruleForm.orderStatus">
+            <el-radio :value="1">待接单</el-radio>
+            <el-radio :value="2">派送中</el-radio>
+            <el-radio :value="3">派送完成</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="用户ID" prop="orderUserId">
+          <el-input v-model="ruleForm.orderUserId" />
+        </el-form-item>
+        <el-form-item label="代收员ID" prop="orderManId">
+          <el-input v-model="ruleForm.orderManId" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -72,9 +95,16 @@ axios("http://localhost:10081/order/match").then(res => {
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: '',
+  orderId: null,
   orderType: null,
-  price: null,
+  orderPrice: null,
+  orderPlace: null,
+  orderAddress: null,
+  orderTime: null,
+  orderRemark: null,
+  orderStatus: null,
+  orderUserId: null,
+  orderManId: null
 })
 
 const rules = reactive({
@@ -113,28 +143,32 @@ const handleClose = async () => {
   await ruleFormRef.value.validate((valid, fields) => {
     if (valid) {
       let obj = {
-        id: Date.now(),
         ...ruleForm,
-        time: '',
-        city: '潍坊',
-        address: '潍坊理工',
-        admin: 'admin',
-        date: dayjs().format('YYYY-MM-DD'),
       }
       if (title.value === '新增') {
-        list.value = [obj, ...list.value]
-        ElMessage.success('添加成功')
+        axios({
+          method: 'post',
+          url: 'http://localhost:10081/order/',
+          data: obj
+        }).then(res => {
+          if (res.data.code == 200) {
+            ElMessage.success('添加成功!')
+            onSubmit({});
+          }
+        })
       } else {
-        list.value.forEach((item) => {
-          if (item.id === (rowObj.value as any).id) {
-            item.name = obj.name
-            item.orderType = obj.orderType
-            item.price = obj.price
+        axios({
+          method: 'put',
+          url: 'http://localhost:10081/order/' + obj.orderId,
+          data: obj
+        }).then(res => {
+          if (res.data.code == 200) {
+            ElMessage.success('修改成功!')
+            onSubmit({});
           }
         })
       }
       dialogVisible.value = false
-      console.log('submit!', obj)
     } else {
       console.log('error submit!', fields)
     }
@@ -144,6 +178,10 @@ const handleClose = async () => {
 const add = () => {
   title.value = '新增'
   dialogVisible.value = true
+
+  Object.keys(ruleForm).forEach(key => {
+    ruleForm[key] = null;
+  });
 }
 
 const batchDelete = () => {
@@ -179,9 +217,16 @@ const edit = (row) => {
   title.value = '编辑'
   rowObj.value = row
   dialogVisible.value = true
-  ruleForm.name = row.name
+  ruleForm.orderId = row.orderId
   ruleForm.orderType = row.orderType
-  ruleForm.price = row.price
+  ruleForm.orderPrice = row.orderPrice
+  ruleForm.orderPlace = row.orderPlace
+  ruleForm.orderAddress = row.orderAddress
+  ruleForm.orderTime = row.orderTime
+  ruleForm.orderRemark = row.orderRemark
+  ruleForm.orderStatus = row.orderStatus
+  ruleForm.orderUserId = row.orderUserId
+  ruleForm.orderManId = row.orderManId
 }
 
 const del = (row) => {
@@ -202,7 +247,6 @@ const del = (row) => {
           onSubmit({});
         }
       })
-
     })
     .catch(() => { })
 }

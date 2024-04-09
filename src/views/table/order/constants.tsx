@@ -6,7 +6,7 @@ export const columns = [
   },
   {
     name: 'orderId',
-    label: '用户ID',
+    label: '订单ID',
     search: true,
     valueType: 'input',
     span: 8,
@@ -44,7 +44,7 @@ export const columns = [
   },
   {
     name: 'orderAddress',
-    label: '地址',
+    label: '收获地址',
   },
   {
     name: 'orderTime',
@@ -60,7 +60,7 @@ export const columns = [
   {
     name: 'orderStatus',
     label: '订单状态',
-    width: 80,
+    width: 100,
   },
   {
     name: 'orderUserId',
