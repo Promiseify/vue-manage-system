@@ -42,7 +42,12 @@
           <el-input v-model="ruleForm.orderAddress" />
         </el-form-item>
         <el-form-item label="派送时间" prop="orderTime">
-          <el-date-picker v-model="ruleForm.orderTime" type="datetime" placeholder="请选择派送时间" />
+          <el-date-picker 
+            v-model="ruleForm.orderTime"
+            type="datetime"
+            placeholder="请选择派送时间"
+            value-format="YYYY-MM-DD HH:mm:ss"
+            format="YYYY-MM-DD HH:mm:ss"/>
           <!-- <el-input v-model="ruleForm.orderTime" /> -->
         </el-form-item>
         <el-form-item label="备注" prop="orderRemark">
