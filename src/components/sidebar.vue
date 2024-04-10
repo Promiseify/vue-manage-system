@@ -104,12 +104,12 @@ const items = [
         title: 'echart图表',
         permiss: '11',
     },
-    // {
-    //     icon: 'Warning',
-    //     index: '/permission',
-    //     title: '权限管理',
-    //     permiss: '13',
-    // },
+    {
+        icon: 'Warning',
+        index: '/permission',
+        title: '权限管理',
+        permiss: '13',
+    },
 ];
 
 const route = useRoute();
