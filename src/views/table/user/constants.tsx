@@ -1,3 +1,4 @@
+
 export const columns = [
   {
     type: 'selection',
@@ -35,16 +36,7 @@ export const columns = [
     slot: true,
     search: true,
     span: 8,
-    options: [
-      {
-        value: 1,
-        label: '用户',
-      },
-      {
-        value: 2,
-        label: '代取员',
-      },
-    ],
+    options: [],
     valueType: 'select',
   },
   {

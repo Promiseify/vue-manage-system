@@ -16,7 +16,6 @@
           </el-button>
         </div>
       </template>
-      <template #orderType="scope">{{ orderTypeDict(scope.row.orderType) }}</template>
       <template #operation="scope">
         <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
@@ -26,45 +25,20 @@
     <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
-        <el-form-item label="订单类型" prop="orderType">
-          <el-radio-group v-model="ruleForm.orderType">
-            <el-radio :value="1">外卖</el-radio>
-            <el-radio :value="2">快递</el-radio>
-          </el-radio-group>
+        <el-form-item label="代收员ID" prop="courierId">
+          <el-input v-model="ruleForm.courierId" />
         </el-form-item>
-        <el-form-item label="订单价格" prop="orderPrice">
-          <el-input v-model="ruleForm.orderPrice" />
+        <el-form-item label="用户ID" prop="userId">
+          <el-input v-model="ruleForm.userId" />
         </el-form-item>
-        <el-form-item label="取货地址" prop="orderPlace">
-          <el-input v-model="ruleForm.orderPlace" />
+        <el-form-item label="评价分数" prop="performanceRating">
+          <el-rate v-model="ruleForm.performanceRating" allow-half />
         </el-form-item>
-        <el-form-item label="收货地址" prop="orderAddress">
-          <el-input v-model="ruleForm.orderAddress" />
+        <el-form-item label="工作时间" prop="workSchedule">
+          <el-input v-model="ruleForm.workSchedule" />
         </el-form-item>
-        <el-form-item label="派送时间" prop="orderTime">
-          <el-date-picker 
-            v-model="ruleForm.orderTime"
-            type="datetime"
-            placeholder="请选择派送时间"
-            value-format="YYYY-MM-DD HH:mm:ss"
-            format="YYYY-MM-DD HH:mm:ss"/>
-          <!-- <el-input v-model="ruleForm.orderTime" /> -->
-        </el-form-item>
-        <el-form-item label="备注" prop="orderRemark">
-          <el-input v-model="ruleForm.orderRemark" />
-        </el-form-item>
-        <el-form-item label="订单状态" prop="orderStatus">
-          <el-radio-group v-model="ruleForm.orderStatus">
-            <el-radio :value="1">待接单</el-radio>
-            <el-radio :value="2">派送中</el-radio>
-            <el-radio :value="3">派送完成</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="用户ID" prop="orderUserId">
-          <el-input v-model="ruleForm.orderUserId" />
-        </el-form-item>
-        <el-form-item label="代收员ID" prop="orderManId">
-          <el-input v-model="ruleForm.orderManId" />
+        <el-form-item label="服务范围" prop="serviceRange">
+          <el-input v-model="ruleForm.serviceRange" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,9 +50,8 @@
     </el-dialog>
   </div>
 </template>
-<script lang="ts" setup name="order">
+<script lang="ts" setup name="courier">
 import { ref, reactive, onMounted, nextTick } from 'vue'
-import dayjs from 'dayjs'
 import axios from 'axios'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -91,7 +64,7 @@ const appContainer = ref(null)
 let list = ref([])
 let baseColumns = reactive(columns)
 
-axios("http://localhost:10081/order/match").then(res => {
+axios("http://localhost:10081/courier/match").then(res => {
   if (res.data.code == 200) {
     list = res.data.data
   }
@@ -100,49 +73,20 @@ axios("http://localhost:10081/order/match").then(res => {
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  orderId: null,
-  orderType: null,
-  orderPrice: null,
-  orderPlace: null,
-  orderAddress: null,
-  orderTime: null,
-  orderRemark: null,
-  orderStatus: null,
-  orderUserId: null,
-  orderManId: null
+  courierId: null,
+  userId: null,
+  performanceRating: null,
+  workSchedule: null,
+  serviceRange: null,
 })
 
 const rules = reactive({
-  name: [
-    { required: true, message: '请输入活动名称活动区域', trigger: 'blur' },
-    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
-  ],
-  price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
-  orderType: [
-    {
-      required: true,
-      message: '请选择订单类型',
-      trigger: 'change',
-    },
-  ],
 })
 
 const dialogVisible = ref(false)
 const title = ref('新增')
 const rowObj = ref({})
 const selectObj = ref([])
-
-// 判断订单类型
-const orderTypeDict = (orderType) => {
-  switch (orderType) {
-    case 1:
-      return "外卖"
-    case 2:
-      return "快递"
-    case 3:
-      return "其他"
-  }
-}
 
 const handleClose = async () => {
   await ruleFormRef.value.validate((valid, fields) => {
@@ -153,7 +97,7 @@ const handleClose = async () => {
       if (title.value === '新增') {
         axios({
           method: 'post',
-          url: 'http://localhost:10081/order/',
+          url: 'http://localhost:10081/courier/',
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -164,7 +108,7 @@ const handleClose = async () => {
       } else {
         axios({
           method: 'put',
-          url: 'http://localhost:10081/order/' + obj.orderId,
+          url: 'http://localhost:10081/courier/' + obj.courierId,
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -200,11 +144,11 @@ const batchDelete = () => {
     draggable: true,
   })
     .then(() => {
-      const orderIds = selectObj.value.map(item => item.orderId)
+      const courierIds = selectObj.value.map(item => item.courierId)
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/order/deleteOrders',
-        data: orderIds
+        url: 'http://localhost:10081/courier/deleteCouriers',
+        data: courierIds
       }).then(res => {
         if (res.data.code == 200) {
           ElMessage.success(res.data.msg)
@@ -222,16 +166,11 @@ const edit = (row) => {
   title.value = '编辑'
   rowObj.value = row
   dialogVisible.value = true
-  ruleForm.orderId = row.orderId
-  ruleForm.orderType = row.orderType
-  ruleForm.orderPrice = row.orderPrice
-  ruleForm.orderPlace = row.orderPlace
-  ruleForm.orderAddress = row.orderAddress
-  ruleForm.orderTime = row.orderTime
-  ruleForm.orderRemark = row.orderRemark
-  ruleForm.orderStatus = row.orderStatus
-  ruleForm.orderUserId = row.orderUserId
-  ruleForm.orderManId = row.orderManId
+  ruleForm.courierId = row.courierId
+  ruleForm.userId = row.userId
+  ruleForm.performanceRating = row.performanceRating
+  ruleForm.workSchedule = row.workSchedule
+  ruleForm.serviceRange = row.serviceRange
 }
 
 const del = (row) => {
@@ -244,7 +183,7 @@ const del = (row) => {
     .then(() => {
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/order/' + row.orderId,
+        url: 'http://localhost:10081/courier/' + row.courierId,
       }).then(res => {
         const { data } = res
         if (data.code == 200) {
@@ -264,7 +203,7 @@ const reset = () => {
 const onSubmit = (val) => {
   loading.value = true
 
-  axios.get("http://localhost:10081/order/match", {
+  axios.get("http://localhost:10081/courier/match", {
     params: val
   }).then(res => {
     if (res.data.code == 200) {

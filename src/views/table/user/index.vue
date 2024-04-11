@@ -52,8 +52,7 @@
   </div>
 </template>
 <script lang="ts" setup name="user">
-import { ref, reactive, onMounted, nextTick } from 'vue'
-// import dayjs from 'dayjs'
+import { ref, reactive, onMounted, nextTick, watch } from 'vue'
 import axios from 'axios'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -65,6 +64,18 @@ const loading = ref(true)
 const appContainer = ref(null)
 let list = ref([])
 let baseColumns = reactive(columns)
+
+let roleList = ref([]);
+
+async function getRoles() {
+  const { data } = await axios.get("http://localhost:10081/role/")
+  roleList.value = data.data.map(item => ({
+    value: item.roleId,
+    label: item.roleName
+  }));
+}
+getRoles();
+baseColumns.find(item => item.name == 'roleId').options = roleList
 
 axios("http://localhost:10081/user/match").then(res => {
   if (res.data.code == 200) {
@@ -83,7 +94,7 @@ const ruleForm = reactive({
 })
 
 const rules = reactive({
-  
+
 })
 
 const dialogVisible = ref(false)
