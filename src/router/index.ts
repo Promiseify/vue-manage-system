@@ -61,6 +61,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/courier/index.vue'),
             },
             {
+                path: '/wallet',
+                name: 'wallet',
+                meta: {
+                    title: '用户钱包信息',
+                    permiss: '6',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/wallet/index.vue'),
+            },
+            {
                 path: '/charts',
                 name: 'basecharts',
                 meta: {

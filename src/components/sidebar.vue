@@ -92,6 +92,12 @@ const items = [
         title: '配送员信息',
         permiss: '5',
     },
+    {
+        icon: 'Wallet',
+        index: '/wallet',
+        title: '用户钱包信息',
+        permiss: '5',
+    },
     // {
     //     icon: 'Setting',
     //     index: '/icon',
