@@ -16,7 +16,7 @@
           </el-button>
         </div>
       </template>
-      <template #orderType="scope">{{ orderTypeDict(scope.row.orderType) }}</template>
+      <template #roleId="scope">{{ roleDict(scope.row.roleId) }}</template>
       <template #operation="scope">
         <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
@@ -26,45 +26,20 @@
     <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
-        <el-form-item label="订单类型" prop="orderType">
-          <el-radio-group v-model="ruleForm.orderType">
-            <el-radio :value="1">外卖</el-radio>
-            <el-radio :value="2">快递</el-radio>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="ruleForm.username" />
+        </el-form-item>
+        <el-form-item label="用户密码" prop="password">
+          <el-input v-model="ruleForm.password" />
+        </el-form-item>
+        <el-form-item label="联系电话" prop="phone">
+          <el-input v-model="ruleForm.phone" />
+        </el-form-item>
+        <el-form-item label="角色信息" prop="roleId">
+          <el-radio-group v-model="ruleForm.roleId">
+            <el-radio :value="1">用户</el-radio>
+            <el-radio :value="2">代取员</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="订单价格" prop="orderPrice">
-          <el-input v-model="ruleForm.orderPrice" />
-        </el-form-item>
-        <el-form-item label="取货地址" prop="orderPlace">
-          <el-input v-model="ruleForm.orderPlace" />
-        </el-form-item>
-        <el-form-item label="收货地址" prop="orderAddress">
-          <el-input v-model="ruleForm.orderAddress" />
-        </el-form-item>
-        <el-form-item label="派送时间" prop="orderTime">
-          <el-date-picker 
-            v-model="ruleForm.orderTime"
-            type="datetime"
-            placeholder="请选择派送时间"
-            value-format="YYYY-MM-DD HH:mm:ss"
-            format="YYYY-MM-DD HH:mm:ss"/>
-          <!-- <el-input v-model="ruleForm.orderTime" /> -->
-        </el-form-item>
-        <el-form-item label="备注" prop="orderRemark">
-          <el-input v-model="ruleForm.orderRemark" />
-        </el-form-item>
-        <el-form-item label="订单状态" prop="orderStatus">
-          <el-radio-group v-model="ruleForm.orderStatus">
-            <el-radio :value="1">待接单</el-radio>
-            <el-radio :value="2">派送中</el-radio>
-            <el-radio :value="3">派送完成</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="用户ID" prop="orderUserId">
-          <el-input v-model="ruleForm.orderUserId" />
-        </el-form-item>
-        <el-form-item label="代收员ID" prop="orderManId">
-          <el-input v-model="ruleForm.orderManId" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,9 +51,9 @@
     </el-dialog>
   </div>
 </template>
-<script lang="ts" setup name="order">
+<script lang="ts" setup name="user">
 import { ref, reactive, onMounted, nextTick } from 'vue'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import axios from 'axios'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -91,7 +66,7 @@ const appContainer = ref(null)
 let list = ref([])
 let baseColumns = reactive(columns)
 
-axios("http://localhost:10081/order/match").then(res => {
+axios("http://localhost:10081/user/match").then(res => {
   if (res.data.code == 200) {
     list = res.data.data
   }
@@ -100,31 +75,15 @@ axios("http://localhost:10081/order/match").then(res => {
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  orderId: null,
-  orderType: null,
-  orderPrice: null,
-  orderPlace: null,
-  orderAddress: null,
-  orderTime: null,
-  orderRemark: null,
-  orderStatus: null,
-  orderUserId: null,
-  orderManId: null
+  userId: null,
+  username: null,
+  password: null,
+  phone: null,
+  roleId: null
 })
 
 const rules = reactive({
-  name: [
-    { required: true, message: '请输入活动名称活动区域', trigger: 'blur' },
-    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
-  ],
-  price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
-  orderType: [
-    {
-      required: true,
-      message: '请选择订单类型',
-      trigger: 'change',
-    },
-  ],
+  
 })
 
 const dialogVisible = ref(false)
@@ -133,14 +92,12 @@ const rowObj = ref({})
 const selectObj = ref([])
 
 // 判断订单类型
-const orderTypeDict = (orderType) => {
-  switch (orderType) {
+const roleDict = (roleId) => {
+  switch (roleId) {
     case 1:
-      return "外卖"
+      return "用户"
     case 2:
-      return "快递"
-    case 3:
-      return "其他"
+      return "代取员"
   }
 }
 
@@ -153,7 +110,7 @@ const handleClose = async () => {
       if (title.value === '新增') {
         axios({
           method: 'post',
-          url: 'http://localhost:10081/order/',
+          url: 'http://localhost:10081/user/',
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -164,7 +121,7 @@ const handleClose = async () => {
       } else {
         axios({
           method: 'put',
-          url: 'http://localhost:10081/order/' + obj.orderId,
+          url: 'http://localhost:10081/user/' + obj.userId,
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -200,11 +157,11 @@ const batchDelete = () => {
     draggable: true,
   })
     .then(() => {
-      const orderIds = selectObj.value.map(item => item.orderId)
+      const userIds = selectObj.value.map(item => item.userId)
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/order/deleteOrders',
-        data: orderIds
+        url: 'http://localhost:10081/user/deleteUsers',
+        data: userIds
       }).then(res => {
         if (res.data.code == 200) {
           ElMessage.success(res.data.msg)
@@ -222,16 +179,11 @@ const edit = (row) => {
   title.value = '编辑'
   rowObj.value = row
   dialogVisible.value = true
-  ruleForm.orderId = row.orderId
-  ruleForm.orderType = row.orderType
-  ruleForm.orderPrice = row.orderPrice
-  ruleForm.orderPlace = row.orderPlace
-  ruleForm.orderAddress = row.orderAddress
-  ruleForm.orderTime = row.orderTime
-  ruleForm.orderRemark = row.orderRemark
-  ruleForm.orderStatus = row.orderStatus
-  ruleForm.orderUserId = row.orderUserId
-  ruleForm.orderManId = row.orderManId
+  ruleForm.userId = row.userId
+  ruleForm.username = row.username
+  ruleForm.password = row.password
+  ruleForm.phone = row.phone
+  ruleForm.roleId = row.roleId
 }
 
 const del = (row) => {
@@ -244,7 +196,7 @@ const del = (row) => {
     .then(() => {
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/order/' + row.orderId,
+        url: 'http://localhost:10081/user/' + row.userId,
       }).then(res => {
         const { data } = res
         if (data.code == 200) {
@@ -264,7 +216,7 @@ const reset = () => {
 const onSubmit = (val) => {
   loading.value = true
 
-  axios.get("http://localhost:10081/order/match", {
+  axios.get("http://localhost:10081/user/match", {
     params: val
   }).then(res => {
     if (res.data.code == 200) {

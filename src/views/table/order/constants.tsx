@@ -11,7 +11,7 @@ export const columns = [
     valueType: 'input',
     span: 8,
     attrs: {
-      placeholder: '请输入用户ID',
+      placeholder: '请输入订单ID',
     },
   },
   {

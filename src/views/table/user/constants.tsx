@@ -5,78 +5,47 @@ export const columns = [
     fixed: 'left',
   },
   {
-    name: 'orderId',
-    label: '订单ID',
+    name: 'userId',
+    label: '用户ID',
     search: true,
     valueType: 'input',
     span: 8,
     attrs: {
       placeholder: '请输入用户ID',
     },
+    width: 150,
   },
   {
-    name: 'orderType',
-    label: '订单类型',
+    name: 'username',
+    label: '用户名',
+  },
+
+  {
+    name: 'password',
+    label: '用户密码',
+    width: 160,
+  },
+  {
+    name: 'phone',
+    label: '联系电话',
+  },
+  {
+    name: 'roleId',
+    label: '角色信息',
     slot: true,
     search: true,
     span: 8,
     options: [
       {
         value: 1,
-        label: '外卖',
+        label: '用户',
       },
       {
         value: 2,
-        label: '快递',
+        label: '代取员',
       },
     ],
     valueType: 'select',
-  },
-  {
-    name: 'orderPrice',
-    label: '单价',
-  },
-
-  {
-    name: 'orderPlace',
-    label: '取货地址',
-    width: 160,
-  },
-  {
-    name: 'orderAddress',
-    label: '收获地址',
-  },
-  {
-    name: 'orderTime',
-    label: '派送时间',
-    align: 'right',
-    width: 160,
-  },
-  {
-    name: 'orderRemark',
-    label: '备注',
-    width: 160,
-  },
-  {
-    name: 'orderStatus',
-    label: '订单状态',
-    width: 100,
-  },
-  {
-    name: 'orderUserId',
-    label: '用户ID',
-    width: 80,
-  },
-  {
-    name: 'orderManId',
-    label: '代收员ID',
-    width: 100,
-    search: true,
-    valueType: 'input',
-    span: 8,
-    attrs: {
-      placeholder: '请输入代收员ID',
-    },
   },
   {
     name: 'operation',
