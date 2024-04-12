@@ -70,6 +70,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/wallet/index.vue'),
             },
             {
+                path: '/info',
+                name: 'info',
+                meta: {
+                    title: '注册用户数量',
+                    permiss: '7',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/echarts/barEcharts.vue'),
+            },
+            {
                 path: '/charts',
                 name: 'basecharts',
                 meta: {

@@ -96,7 +96,13 @@ const items = [
         icon: 'Wallet',
         index: '/wallet',
         title: '用户钱包信息',
-        permiss: '5',
+        permiss: '6',
+    },
+    {
+        icon: 'Film',
+        index: '/info',
+        title: '注册用户数量',
+        permiss: '7',
     },
     // {
     //     icon: 'Setting',

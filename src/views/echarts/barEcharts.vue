@@ -11,18 +11,18 @@
 
   const chartsRef = ref<HTMLElement | null>()
   let XData = [
-    '2022-01',
-    '2022-02',
-    '2022-03',
-    '2022-04',
-    '2022-05',
-    '2022-06',
-    '2022-07',
-    '2022-08',
-    '2022-09',
-    '2022-10',
-    '2022-11',
-    '2022-12',
+    '2024-01',
+    '2024-02',
+    '2024-03',
+    '2024-04',
+    '2024-05',
+    '2024-06',
+    '2024-07',
+    '2024-08',
+    '2024-09',
+    '2024-10',
+    '2024-11',
+    '2024-12',
   ]
   let valueData = {
     jfsbs: [805, 860, 400, 400, 400, 400, 990, 985, 990, 850, 560, 772],
@@ -54,11 +54,11 @@
         // let strName3 = params[2].seriesName;
         let value3 = params[2].value
         return (
-          '<div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">密度数</span><span style="color:#5DB6FB">' +
+          '<div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">新增用户数</span><span style="color:#5DB6FB">' +
           value1 +
-          '</span></div><div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">设备数</span><span style="color:#5DB6FB">' +
+          '</span></div><div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">本月检测数</span><span style="color:#5DB6FB">' +
           value2 +
-          '</span></div><div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">智能化比例</span><span style="color:#5DB6FB">' +
+          '</span></div><div><span style="color:rgba(36, 36, 36, 1);display: inline-block;width: 86px;">增长率</span><span style="color:#5DB6FB">' +
           value3 +
           '%</span></div>'
         )
@@ -164,7 +164,7 @@
 
     series: [
       {
-        name: '新增基桩数',
+        name: '新增用户数',
         type: 'bar',
         barWidth: '12px',
         itemStyle: {
@@ -204,7 +204,7 @@
         data: valueData.md,
       },
       {
-        name: '累计完成率',
+        name: '累计增长率',
         type: 'line',
         smooth: true,
         yAxisIndex: 1, //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
@@ -252,7 +252,7 @@
 <style lang="scss" scoped>
   .app-echarts {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: white;
   }
 </style>
