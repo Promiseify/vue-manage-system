@@ -17,6 +17,7 @@
 		"md-editor-v3": "^2.11.2",
 		"nprogress": "^0.2.0",
 		"pinia": "^2.1.7",
+		"exceljs": "^4.3.0",
 		"vue": "^3.3.0",
 		"vue-cropperjs": "^5.0.0",
 		"vue-router": "^4.2.5",
