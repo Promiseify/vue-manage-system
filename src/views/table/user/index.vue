@@ -14,6 +14,11 @@
               <delete />
             </el-icon> 删除
           </el-button>
+          <el-button type="success" @click="handleExportExcel">
+            <el-icon>
+              <Download />
+            </el-icon> 导出
+          </el-button>
         </div>
       </template>
       <template #roleId="scope">{{ roleDict(scope.row.roleId) }}</template>
@@ -49,6 +54,27 @@
         </span>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="excelDialogVisible" title="导出" width="20%">
+      <el-form ref="excelFormRef" :model="excelForm" :rules="excelRules" label-width="120px" class="demo-ruleForm"
+        :size="formSize">
+        <el-form-item label="文件名称" prop="filename">
+          <el-input v-model="excelForm.filename" placeholder="请输入文件名" width="100px" />
+        </el-form-item>
+        <el-form-item label="文件名称" prop="filename">
+          <el-select v-model="excelForm.format" class="m-2" placeholder="导出格式" style="width: 200px; margin-right: 10px">
+            <el-option label="xlsx" value="xlsx" />
+            <el-option label="csv" value="csv" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="excelDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleExportExcelAction()">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script lang="ts" setup name="user">
@@ -58,6 +84,7 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import PropTable from '@/components/Table/PropTable/index.vue'
+import { exportExcel } from '../../../utils/exprotExcel'
 import { columns } from './constants'
 
 const loading = ref(true)
@@ -97,10 +124,25 @@ const rules = reactive({
 
 })
 
+const excelFormRef = ref<FormInstance>()
+const excelForm = reactive({
+  filename: null,
+  format: null,
+})
+
+const excelRules = reactive({
+  name: [
+    { required: true, message: '请输入活动名称活动区域', trigger: 'blur' },
+    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
+  ],
+})
+
 const dialogVisible = ref(false)
 const title = ref('新增')
 const rowObj = ref({})
 const selectObj = ref([])
+
+const excelDialogVisible = ref(false)
 
 // 判断订单类型
 const roleDict = (roleId) => {
@@ -237,6 +279,35 @@ const onSubmit = (val) => {
   setTimeout(() => {
     loading.value = false
   }, 500);
+}
+
+// 导出excel
+const handleExportExcel = (row) => {
+  excelDialogVisible.value = true
+
+  Object.keys(excelForm).forEach(key => {
+    excelForm[key] = null;
+  });
+}
+
+const handleExportExcelAction = () => {
+  const newColumns = columns.filter(item => {
+    return item.name && item.name !== 'operation'
+  }).map(item => {
+    return {
+      name: item.name,
+      label: item.label
+    }
+  })
+  exportExcel({
+    column: newColumns,
+    data: list,
+    filename: excelForm.filename || '导出 excel',
+    format: excelForm.format,
+    autoWidth: true,
+  })
+
+  excelDialogVisible.value = false
 }
 
 onMounted(() => {

@@ -322,8 +322,6 @@ const handleExportExcel = (row) => {
   });
 }
 
-const input = ref('')
-const format = ref('xlsx')
 const handleExportExcelAction = () => {
   const newColumns = columns.filter(item => {
     return item.name && item.name !== 'operation'
@@ -336,8 +334,8 @@ const handleExportExcelAction = () => {
   exportExcel({
     column: newColumns,
     data: list,
-    filename: input.value || '导出 excel',
-    format: format.value,
+    filename: excelForm.filename || '导出 excel',
+    format: excelForm.format,
     autoWidth: true,
   })
 
