@@ -22,17 +22,10 @@
 				<el-card shadow="hover" style="height: 252px">
 					<template #header>
 						<div class="clearfix">
-							<span>用户首选</span>
+							<span>订单状态</span>
 						</div>
 					</template>
-					派送速度
-					<el-progress :percentage="79.4" color="#42b983"></el-progress>
-					服务态度
-					<el-progress :percentage="62.1" color="#f1e05a"></el-progress>
-					派送范围
-					<el-progress :percentage="10.6"></el-progress>
-					派送方式
-					<el-progress :percentage="3.1" color="#f56c6c"></el-progress>
+					<div class="order-status" ref="orderStatusRef"></div>
 				</el-card>
 			</el-col>
 			<el-col :span="16">
@@ -40,9 +33,11 @@
 					<el-col :span="8">
 						<el-card shadow="hover" :body-style="{ padding: '0px' }">
 							<div class="grid-content grid-con-1">
-								<el-icon class="grid-con-icon"><User /></el-icon>
+								<el-icon class="grid-con-icon">
+									<User />
+								</el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">3129</div>
+									<div class="grid-num">9912</div>
 									<div>用户访问量</div>
 								</div>
 							</div>
@@ -51,9 +46,11 @@
 					<el-col :span="8">
 						<el-card shadow="hover" :body-style="{ padding: '0px' }">
 							<div class="grid-content grid-con-2">
-								<el-icon class="grid-con-icon"><ChatDotRound /></el-icon>
+								<el-icon class="grid-con-icon">
+									<ChatDotRound />
+								</el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">10</div>
+									<div class="grid-num">2</div>
 									<div>系统消息</div>
 								</div>
 							</div>
@@ -62,9 +59,11 @@
 					<el-col :span="8">
 						<el-card shadow="hover" :body-style="{ padding: '0px' }">
 							<div class="grid-content grid-con-3">
-								<el-icon class="grid-con-icon"><Goods /></el-icon>
+								<el-icon class="grid-con-icon">
+									<Goods />
+								</el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">182</div>
+									<div class="grid-num">{{ orderCount }}</div>
 									<div>订单数量</div>
 								</div>
 							</div>
@@ -75,7 +74,7 @@
 					<template #header>
 						<div class="clearfix">
 							<span>待办事项</span>
-							<el-button style="float: right; padding: 3px 0" text>添加</el-button>
+							<el-button style="float: right; padding: 3px 0" text>处理</el-button>
 						</div>
 					</template>
 
@@ -87,12 +86,7 @@
 						</el-table-column>
 						<el-table-column>
 							<template #default="scope">
-								<div
-									class="todo-item"
-									:class="{
-										'todo-item-del': scope.row.status
-									}"
-								>
+								<div class="todo-item" :class="{ 'todo-item-del': scope.row.status }">
 									{{ scope.row.title }}
 								</div>
 							</template>
@@ -118,73 +112,128 @@
 
 <script setup lang="ts" name="dashboard">
 import Schart from 'vue-schart';
-import { reactive } from 'vue';
+import * as echarts from 'echarts';
+import { ref, reactive, onMounted, watch } from 'vue';
+import axios from 'axios'
 import imgurl from '../assets/img/img.jpg';
+// import { checkboxGroupEmits } from 'element-plus';
 
 const name = localStorage.getItem('ms_username');
 const role: string = name === 'admin' ? '超级管理员' : '普通用户';
+const orderCount = ref();
+axios.get('http://localhost:10081/order/').then(res => {
+	orderCount.value = res.data.data.length
+})
 
-const options = {
-	type: 'bar',
-	title: {
-		text: '最近一周用户满意和代取快递数量'
+const orderStatusRef = ref(null);
+
+// 订单状态
+const orderStatusOption = reactive({
+	tooltip: {
+		trigger: 'item'
 	},
-	xRorate: 25,
-	labels: ['周一', '周二', '周三', '周四', '周五'],
-	datasets: [
+	legend: {
+		top: '5%',
+		left: 'center'
+	},
+	series: [
 		{
-			label: '满意数量',
-			data: [234, 278, 230, 190, 223]
-		},
-		{
-			label: '代取数量',
-			data: [244, 298, 250, 235, 262]
+			name: '状态',
+			type: 'pie',
+			radius: ['40%', '70%'],
+			center: ['50%', '70%'],
+			// adjust the start and end angle
+			startAngle: 180,
+			endAngle: 360,
+			data: [
+				{ value: 1048, name: 'Search Engine' },
+				{ value: 735, name: 'Direct' },
+				{ value: 580, name: 'Email' },
+				{ value: 484, name: 'Union Ads' },
+				{ value: 300, name: 'Video Ads' }
+			]
 		}
 	]
-};
-const options2 = {
+});
+const orderStatusList = reactive([])
+axios.get('http://localhost:10081/orderStatus/').then(res => {
+	res.data.data.forEach(item => {
+		orderStatusList.push(item)
+	});
+})
+
+axios.get('http://localhost:10081/dataAnalysis/orderStatusQuantity').then(res => {
+	orderStatusOption.series[0].data = res.data.data.map(item => {
+		return {
+			value: item.orderCount,
+			name: orderStatusList.find(iitem => iitem.statusId == item.orderStatus).statusName
+		}
+	})
+})
+
+const options = reactive({
+	type: 'bar',
+	title: {
+		text: '近半年订单数量'
+	},
+	xRorate: 25,
+	labels: [],
+	datasets: [
+		{
+			label: '订单数',
+			data: []
+		}
+	]
+});
+
+axios.get('http://localhost:10081/dataAnalysis/orderQuantity').then(res => {
+	options.labels = res.data.data.months
+	options.datasets[0].data = res.data.data.orderCounts
+})
+const options2 = reactive({
 	type: 'line',
 	title: {
-		text: '最近几个月用户和骑手注册数量'
+		text: '最近几个月用户和代取员注册数量'
 	},
-	labels: ['11月', '12月', '1月', '2月', '3月'],
+	labels: [],
 	datasets: [
 		{
 			label: '用户',
-			data: [234, 278, 270, 190, 230]
+			data: []
 		},
 		{
-			label: '骑手',
-			data: [164, 178, 150, 135, 160]
+			label: '代取员',
+			data: []
 		},
 	]
-};
-const todoList = reactive([
-	{
-		title: '解决用户与骑手矛盾',
-		status: false
-	},
-	{
-		title: '处理丢件问题',
-		status: false
-	},
-	{
-		title: '用户提出需丰富功能',
-		status: false
-	},
-	{
-		title: '解决用户与骑手矛盾',
-		status: false
-	},
-	{
-		title: '解决用户与骑手矛盾',
-		status: true
-	},
-	{
-		title: '解决用户与骑手矛盾',
-		status: true
-	}
-]);
+});
+axios.get('http://localhost:10081/dataAnalysis/userAndCourierQuantity').then(res => {
+	options2.labels = res.data.data.months.map(item => item.slice(0, 7))
+	options2.datasets[0].data = res.data.data.userCounts
+	options2.datasets[1].data = res.data.data.courierCounts
+})
+
+const todoList = reactive([]);
+
+axios.get('http://localhost:10081/feedback/').then(res => {
+	res.data.data.forEach(item => {
+		todoList.push({
+			title: item.feedbackContent,
+			status: item.feedbackStatus === '已处理'
+		});
+	});
+})
+
+watch([orderStatusList, orderStatusOption], () => {
+	const orderChart = echarts.init(orderStatusRef.value);
+	orderChart.setOption(orderStatusOption);
+});
+
+onMounted(() => {
+	var orderChart = echarts.init(orderStatusRef.value);
+	orderChart.setOption(orderStatusOption)
+})
+
 </script>
 
 <style scoped>
@@ -289,5 +338,10 @@ const todoList = reactive([
 .schart {
 	width: 100%;
 	height: 300px;
+}
+
+.order-status {
+	width: 400px;
+	height: 200px;
 }
 </style>

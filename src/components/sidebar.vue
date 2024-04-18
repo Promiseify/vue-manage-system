@@ -1,15 +1,7 @@
 <template>
     <div class="sidebar">
-        <el-menu
-            class="sidebar-el-menu"
-            :default-active="onRoutes"
-            :collapse="sidebar.collapse"
-            background-color="#324157"
-            text-color="#bfcbd9"
-            active-text-color="#20a0ff"
-            unique-opened
-            router
-        >
+        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="sidebar.collapse"
+            background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in items">
                 <template v-if="item.subs">
                     <el-sub-menu :index="item.index" :key="item.index" v-permiss="item.permiss">
@@ -20,12 +12,8 @@
                             <span>{{ item.title }}</span>
                         </template>
                         <template v-for="subItem in item.subs">
-                            <el-sub-menu
-                                v-if="subItem.subs"
-                                :index="subItem.index"
-                                :key="subItem.index"
-                                v-permiss="item.permiss"
-                            >
+                            <el-sub-menu v-if="subItem.subs" :index="subItem.index" :key="subItem.index"
+                                v-permiss="item.permiss">
                                 <template #title>{{ subItem.title }}</template>
                                 <el-menu-item v-for="(threeItem, i) in subItem.subs" :key="i" :index="threeItem.index">
                                     {{ threeItem.title }}
@@ -75,34 +63,62 @@ const items = [
         permiss: '3',
     },
     {
-        icon: 'School',
-        index: '/order',
-        title: '订单信息',
-        permiss: '3',
-    },
-    {
-        icon: 'Memo',
-        index: '/users',
-        title: '用户信息',
-        permiss: '4',
-    },
-    {
-        icon: 'Tickets',
-        index: '/courier',
-        title: '配送员信息',
-        permiss: '5',
-    },
-    {
-        icon: 'Wallet',
-        index: '/wallet',
-        title: '用户钱包信息',
-        permiss: '6',
-    },
-    {
         icon: 'Film',
         index: '/info',
         title: '注册用户数量',
         permiss: '7',
+    },
+    {
+        icon: 'School',
+        index: '3',
+        title: '订单模块',
+        permiss: '3',
+        subs: [
+            {
+                index: '/order',
+                title: '订单信息',
+                permiss: '5',
+            },
+        ]
+    },
+    {
+        icon: 'Memo',
+        index: '4',
+        title: '用户模块',
+        permiss: '4',
+        subs: [
+            {
+                index: '/users',
+                title: '用户信息',
+                permiss: '5',
+            },
+        ]
+    },
+    {
+        icon: 'Tickets',
+        index: '5',
+        title: '配送员模块',
+        permiss: '5',
+        subs: [
+            {
+                index: '/courier',
+                title: '配送员信息',
+                permiss: '5',
+            },
+        ]
+    },
+    {
+        icon: 'Wallet',
+        index: '6',
+        title: '钱包模块',
+        permiss: '6',
+        subs: [
+            {
+                index: '/wallet',
+                title: '用户钱包信息',
+                permiss: '5',
+            },
+        ]
     },
     // {
     //     icon: 'Setting',
@@ -110,12 +126,12 @@ const items = [
     //     title: '自定义图标',
     //     permiss: '10',
     // },
-    {
-        icon: 'PieChart',
-        index: '/charts',
-        title: 'echart图表',
-        permiss: '11',
-    },
+    // {
+    //     icon: 'PieChart',
+    //     index: '/charts',
+    //     title: 'echart图表',
+    //     permiss: '11',
+    // },
     {
         icon: 'Warning',
         index: '/permission',
@@ -141,13 +157,16 @@ const sidebar = useSidebarStore();
     bottom: 0;
     overflow-y: scroll;
 }
+
 .sidebar::-webkit-scrollbar {
     width: 0;
 }
+
 .sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;
 }
-.sidebar > ul {
+
+.sidebar>ul {
     height: 100%;
 }
 </style>
