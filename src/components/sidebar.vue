@@ -56,18 +56,18 @@ const items = [
     //     title: '可视化大屏',
     //     permiss: '2',
     // },
-    {
-        icon: 'DocumentCopy',
-        index: '/tabs',
-        title: '自定义通知',
-        permiss: '3',
-    },
-    {
-        icon: 'Film',
-        index: '/info',
-        title: '注册用户数量',
-        permiss: '7',
-    },
+    // {
+    //     icon: 'DocumentCopy',
+    //     index: '/tabs',
+    //     title: '自定义通知',
+    //     permiss: '3',
+    // },
+    // {
+    //     icon: 'Film',
+    //     index: '/info',
+    //     title: '注册用户数量',
+    //     permiss: '7',
+    // },
     {
         icon: 'School',
         index: '3',

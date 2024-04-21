@@ -21,7 +21,16 @@
           </el-button>
         </div>
       </template>
+      <template #imageUrl="scope">
+        <el-image style="width: 80px; height: 80px" :src="scope.row.imageUrl" />
+      </template>
       <template #orderType="scope">{{ orderTypeDict(scope.row.orderType) }}</template>
+      <template #review="scope">
+        <el-select v-model="scope.row.review" placeholder="Select" size="large" style="width: 150px"
+          @change="reviewChange(scope.row)">
+          <el-option v-for="item in reviewList" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </template>
       <template #operation="scope">
         <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
@@ -108,10 +117,43 @@ import { exportExcel } from '../../../utils/exprotExcel'
 
 import { columns } from './constants'
 
+const reviewList = [
+  {
+    value: '未审核',
+    label: '未审核',
+  },
+  {
+    value: '审核通过',
+    label: '审核通过',
+  },
+  {
+    value: '审核不通过',
+    label: '审核不通过',
+  },
+]
+
+const reviewChange = (row) => {
+  const obj = {
+    orderId: row.orderId,
+    review: row.review
+  }
+  axios({
+    method: 'post',
+    url: 'http://localhost:10081/order/update/',
+    data: obj
+  }).then(res => {
+    if (res.data.code == 200) {
+      ElMessage.success('修改成功!')
+      onSubmit({});
+    }
+  })
+}
+
 const loading = ref(true)
 const appContainer = ref(null)
 let list = ref([])
 let baseColumns = reactive(columns)
+
 
 axios("http://localhost:10081/order/match").then(res => {
   if (res.data.code == 200) {

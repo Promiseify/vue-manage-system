@@ -15,6 +15,11 @@ export const columns = [
     },
   },
   {
+    name: 'imageUrl',
+    label: '订单截图',
+    slot: true,
+  },
+  {
     name: 'orderType',
     label: '订单类型',
     slot: true,
@@ -77,6 +82,12 @@ export const columns = [
     attrs: {
       placeholder: '请输入代收员ID',
     },
+  },
+  {
+    name: 'review',
+    label: '审核状态',
+    slot: true,
+    width: 200,
   },
   {
     name: 'operation',
