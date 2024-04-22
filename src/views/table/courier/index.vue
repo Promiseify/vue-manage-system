@@ -21,6 +21,12 @@
           </el-button>
         </div>
       </template>
+      <template #review="scope">
+        <el-select v-model="scope.row.review" placeholder="Select" size="large" style="width: 150px"
+          @change="reviewChange(scope.row)">
+          <el-option v-for="item in reviewList" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </template>
       <template #operation="scope">
         <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
@@ -85,6 +91,42 @@ import type { FormInstance } from 'element-plus'
 import PropTable from '@/components/Table/PropTable/index.vue'
 import { exportExcel } from '../../../utils/exprotExcel'
 import { columns } from './constants'
+
+const reviewList = [
+  {
+    value: '未审核',
+    label: '未审核',
+  },
+  {
+    value: '审核中',
+    label: '审核中',
+  },
+  {
+    value: '审核通过',
+    label: '审核通过',
+  },
+  {
+    value: '审核未通过',
+    label: '审核未通过',
+  },
+]
+
+const reviewChange = (row) => {
+  const obj = {
+    courierId: row.courierId,
+    review: row.review
+  }
+  axios({
+    method: 'post',
+    url: 'http://localhost:10081/courier/update/',
+    data: obj
+  }).then(res => {
+    if (res.data.code == 200) {
+      ElMessage.success('修改成功!')
+      onSubmit({});
+    }
+  })
+}
 
 const loading = ref(true)
 const appContainer = ref(null)
