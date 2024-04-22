@@ -18,6 +18,7 @@ export const columns = [
     name: 'imageUrl',
     label: '订单截图',
     slot: true,
+    width: 120,
   },
   {
     name: 'orderType',
@@ -25,6 +26,7 @@ export const columns = [
     slot: true,
     search: true,
     span: 8,
+    width: 100,
     options: [
       {
         value: 1,
@@ -50,17 +52,18 @@ export const columns = [
   {
     name: 'orderAddress',
     label: '收获地址',
+    width: 160,
   },
   {
     name: 'orderTime',
     label: '派送时间',
-    align: 'right',
+    align: 'left',
     width: 160,
   },
   {
     name: 'orderRemark',
     label: '备注',
-    width: 160,
+    width: 80,
   },
   {
     name: 'orderStatus',

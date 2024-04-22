@@ -51,6 +51,11 @@
         <el-form-item label="服务范围" prop="serviceRange">
           <el-input v-model="ruleForm.serviceRange" />
         </el-form-item>
+        <el-form-item label="审核状态" prop="review">
+          <el-select v-model="ruleForm.review" placeholder="请选择审核状态" size="default" style="width: 150px">
+            <el-option v-for="item in reviewList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -147,6 +152,7 @@ const ruleForm = reactive({
   performanceRating: null,
   workSchedule: null,
   serviceRange: null,
+  review: null,
 })
 
 const rules = reactive({
@@ -255,6 +261,7 @@ const edit = (row) => {
   ruleForm.performanceRating = row.performanceRating
   ruleForm.workSchedule = row.workSchedule
   ruleForm.serviceRange = row.serviceRange
+  ruleForm.review = row.review
 }
 
 const del = (row) => {

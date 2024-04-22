@@ -76,6 +76,11 @@
         <el-form-item label="代收员ID" prop="orderManId">
           <el-input v-model="ruleForm.orderManId" />
         </el-form-item>
+        <el-form-item label="审核状态" prop="review">
+          <el-select v-model="ruleForm.review" placeholder="请选择审核状态" size="default" style="width: 150px">
+            <el-option v-for="item in reviewList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -173,7 +178,8 @@ const ruleForm = reactive({
   orderRemark: null,
   orderStatus: null,
   orderUserId: null,
-  orderManId: null
+  orderManId: null,
+  review: null
 })
 
 const rules = reactive({
@@ -311,6 +317,7 @@ const edit = (row) => {
   ruleForm.orderStatus = row.orderStatus
   ruleForm.orderUserId = row.orderUserId
   ruleForm.orderManId = row.orderManId
+  ruleForm.review = row.review
 }
 
 const del = (row) => {
