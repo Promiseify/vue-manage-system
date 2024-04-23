@@ -12,7 +12,7 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2024-03-07</span>
+						<span>2024-04-23</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
@@ -37,7 +37,7 @@
 									<User />
 								</el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">9912</div>
+									<div class="grid-num">{{ accessData }}</div>
 									<div>用户访问量</div>
 								</div>
 							</div>
@@ -124,6 +124,12 @@ const orderCount = ref();
 axios.get('http://localhost:10081/order/').then(res => {
 	orderCount.value = res.data.data.length
 })
+
+const accessData = ref(null);
+axios.get('http://localhost:10081/log/count').then(res => {
+	accessData.value = res.data.data
+})
+
 
 const orderStatusRef = ref(null);
 
