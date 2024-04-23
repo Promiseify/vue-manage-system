@@ -51,7 +51,7 @@ export const columns = [
   },
   {
     name: 'orderAddress',
-    label: '收获地址',
+    label: '收货地址',
     width: 160,
   },
   {

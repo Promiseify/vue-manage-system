@@ -6,8 +6,8 @@ export const columns = [
     fixed: 'left',
   },
   {
-    name: 'walletId',
-    label: '钱包ID',
+    name: 'feedbackId',
+    label: '反馈ID',
     width: 150,
   },
   {
@@ -22,34 +22,31 @@ export const columns = [
     width: 150,
   },
   {
-    name: 'balance',
-    label: '余额',
+    name: 'feedbackContent',
+    label: '反馈内容',
   },
 
   {
-    name: 'currency',
-    label: '货币单位',
+    name: 'feedbackStatus',
+    label: '反馈状态',
     search: true,
+    slot: true,
     valueType: 'select',
     span: 8,
     options: [
       {
-        value: 'CNY',
-        label: 'CNY',
+        value: '已处理',
+        label: '已处理',
       },
       {
-        value: 'HKD',
-        label: 'HKD',
-      },
-      {
-        value: 'USD',
-        label: 'USD',
-      },
-      {
-        value: 'EUR',
-        label: 'EUR',
+        value: '待处理',
+        label: '待处理',
       },
     ],
+  },
+  {
+    name: 'feedbackTime',
+    label: '反馈时间',
   },
   {
     name: 'operation',

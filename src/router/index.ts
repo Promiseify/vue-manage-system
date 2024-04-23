@@ -61,13 +61,13 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/courier/index.vue'),
             },
             {
-                path: '/wallet',
-                name: 'wallet',
+                path: '/feedback',
+                name: 'feedback',
                 meta: {
-                    title: '用户钱包信息',
+                    title: '用户反馈',
                     permiss: '6',
                 },
-                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/wallet/index.vue'),
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/feedback/index.vue'),
             },
             {
                 path: '/info',

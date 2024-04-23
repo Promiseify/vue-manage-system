@@ -21,7 +21,11 @@
           </el-button>
         </div>
       </template>
-      <template #roleId="scope">{{ roleDict(scope.row.roleId) }}</template>
+      <template #feedbackStatus="scope">
+        <el-select v-model="scope.row.feedbackStatus" placeholder="请选择处理状态" size="default" style="width: 150px" @change="feedbackStatusChange(scope.row)">
+          <el-option v-for="item in feedbackStatusList" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </template>
       <template #operation="scope">
         <el-button type="primary" size="small" icon="Edit" @click="edit(scope.row)"> 编辑 </el-button>
         <el-button type="danger" size="small" icon="Delete" @click="del(scope.row)"> 删除 </el-button>
@@ -31,21 +35,19 @@
     <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
-        <el-form-item label="钱包ID" prop="walletId">
-          <el-input v-model="ruleForm.walletId" />
+        <el-form-item label="反馈ID" prop="feedbackId">
+          <el-input v-model="ruleForm.feedbackId" />
         </el-form-item>
         <el-form-item label="用户ID" prop="userId">
           <el-input v-model="ruleForm.userId" />
         </el-form-item>
-        <el-form-item label="钱包余额" prop="balance">
-          <el-input v-model="ruleForm.balance" />
+        <el-form-item label="反馈内容" prop="feedbackContent">
+          <el-input v-model="ruleForm.feedbackContent" />
         </el-form-item>
-        <el-form-item label="货币单位" prop="currency">
-          <el-radio-group v-model="ruleForm.currency">
-            <el-radio :value="'CNY'">CNY</el-radio>
-            <el-radio :value="'HKD'">HKD</el-radio>
-            <el-radio :value="'USD'">USD</el-radio>
-            <el-radio :value="'EUR'">EUR</el-radio>
+        <el-form-item label="反馈状态" prop="feedbackStatus">
+          <el-radio-group v-model="ruleForm.feedbackStatus">
+            <el-radio :value="'待处理'">待处理</el-radio>
+            <el-radio :value="'已处理'">已处理</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -79,7 +81,7 @@
     </el-dialog>
   </div>
 </template>
-<script lang="ts" setup name="wallet">
+<script lang="ts" setup name="feedback">
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import axios from 'axios'
 
@@ -94,7 +96,35 @@ const appContainer = ref(null)
 let list = ref([])
 let baseColumns = reactive(columns)
 
-axios("http://localhost:10081/wallet/match").then(res => {
+const feedbackStatusList = [
+  {
+    value: '待处理',
+    label: '待处理',
+  },
+  {
+    value: '已处理',
+    label: '已处理',
+  },
+]
+
+const feedbackStatusChange = (row) => {
+  const obj = {
+    feedbackId: row.feedbackId,
+    feedbackStatus: row.feedbackStatus
+  }
+  axios({
+    method: 'post',
+    url: 'http://localhost:10081/feedback/update/',
+    data: obj
+  }).then(res => {
+    if (res.data.code == 200) {
+      ElMessage.success('修改成功!')
+      onSubmit({});
+    }
+  })
+}
+
+axios("http://localhost:10081/feedback/match").then(res => {
   if (res.data.code == 200) {
     list = res.data.data
   }
@@ -103,10 +133,10 @@ axios("http://localhost:10081/wallet/match").then(res => {
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  walletId: null,
+  feedbackId: null,
   userId: null,
-  balance: null,
-  currency: null,
+  feedbackContent: null,
+  feedbackStatus: null,
 })
 
 const rules = reactive({
@@ -133,16 +163,6 @@ const selectObj = ref([])
 
 const excelDialogVisible = ref(false)
 
-// 判断订单类型
-const roleDict = (roleId) => {
-  switch (roleId) {
-    case 1:
-      return "用户"
-    case 2:
-      return "代取员"
-  }
-}
-
 const handleClose = async () => {
   await ruleFormRef.value.validate((valid, fields) => {
     if (valid) {
@@ -152,7 +172,7 @@ const handleClose = async () => {
       if (title.value === '新增') {
         axios({
           method: 'post',
-          url: 'http://localhost:10081/wallet/',
+          url: 'http://localhost:10081/feedback/',
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -163,7 +183,7 @@ const handleClose = async () => {
       } else {
         axios({
           method: 'put',
-          url: 'http://localhost:10081/wallet/' + obj.walletId,
+          url: 'http://localhost:10081/feedback/' + obj.feedbackId,
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -199,11 +219,11 @@ const batchDelete = () => {
     draggable: true,
   })
     .then(() => {
-      const walletIds = selectObj.value.map(item => item.walletId)
+      const feedbackIds = selectObj.value.map(item => item.feedbackId)
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/wallet/deleteWallets',
-        data: walletIds
+        url: 'http://localhost:10081/feedback/deleteWallets',
+        data: feedbackIds
       }).then(res => {
         if (res.data.code == 200) {
           ElMessage.success(res.data.msg)
@@ -221,10 +241,10 @@ const edit = (row) => {
   title.value = '编辑'
   rowObj.value = row
   dialogVisible.value = true
-  ruleForm.walletId = row.walletId
+  ruleForm.feedbackId = row.feedbackId
   ruleForm.userId = row.userId
-  ruleForm.balance = row.balance
-  ruleForm.currency = row.currency
+  ruleForm.feedbackContent = row.feedbackContent
+  ruleForm.feedbackStatus = row.feedbackStatus
 }
 
 const del = (row) => {
@@ -237,7 +257,7 @@ const del = (row) => {
     .then(() => {
       axios({
         method: 'delete',
-        url: 'http://localhost:10081/wallet/' + row.walletId,
+        url: 'http://localhost:10081/feedback/' + row.feedbackId,
       }).then(res => {
         const { data } = res
         if (data.code == 200) {
@@ -257,7 +277,7 @@ const reset = () => {
 const onSubmit = (val) => {
   loading.value = true
 
-  axios.get("http://localhost:10081/wallet/match", {
+  axios.get("http://localhost:10081/feedback/match", {
     params: val
   }).then(res => {
     if (res.data.code == 200) {

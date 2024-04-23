@@ -110,12 +110,12 @@ const items = [
     {
         icon: 'Wallet',
         index: '6',
-        title: '钱包模块',
+        title: '用户反馈管理',
         permiss: '6',
         subs: [
             {
-                index: '/wallet',
-                title: '用户钱包信息',
+                index: '/feedback',
+                title: '用户反馈',
                 permiss: '5',
             },
         ]
