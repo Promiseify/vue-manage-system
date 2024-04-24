@@ -6,18 +6,28 @@ export const columns = [
   },
   {
     name: 'courierId',
-    label: '代收员ID',
+    label: '代取员ID',
     search: true,
     valueType: 'input',
     span: 8,
     attrs: {
-      placeholder: '请输入代收员ID',
+      placeholder: '请输入代取员ID',
     },
     width: 160,
   },
   {
     name: 'userId',
     label: '用户ID',
+    width: 160,
+  },
+  {
+    name: 'username',
+    label: '用户名',
+    width: 160,
+  },
+  {
+    name: 'phone',
+    label: '联系方式',
     width: 160,
   },
   {
@@ -35,7 +45,7 @@ export const columns = [
   {
     name: 'workSchedule',
     label: '工作时间',
-    width: 400,
+    width: 200,
   },
   {
     name: 'serviceRange',

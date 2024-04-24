@@ -12,7 +12,7 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2024-04-23</span>
+						<span>2024-04-24</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
@@ -119,7 +119,7 @@ import imgurl from '../assets/img/img.jpg';
 // import { checkboxGroupEmits } from 'element-plus';
 
 const name = localStorage.getItem('ms_username');
-const role: string = name === 'admin' ? '超级管理员' : '普通用户';
+const role: string = name.includes('admin') ? '超级管理员' : '管理员';
 const orderCount = ref();
 axios.get('http://localhost:10081/order/').then(res => {
 	orderCount.value = res.data.data.length

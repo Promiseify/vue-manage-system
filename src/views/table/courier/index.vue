@@ -36,7 +36,7 @@
     <el-dialog v-model="dialogVisible" :title="title" width="50%">
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
-        <el-form-item label="代收员ID" prop="courierId">
+        <el-form-item label="代取员ID" prop="courierId">
           <el-input v-model="ruleForm.courierId" />
         </el-form-item>
         <el-form-item label="用户ID" prop="userId">

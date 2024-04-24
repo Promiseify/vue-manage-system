@@ -97,12 +97,12 @@ const items = [
     {
         icon: 'Tickets',
         index: '5',
-        title: '配送员模块',
+        title: '代取员模块',
         permiss: '5',
         subs: [
             {
                 index: '/courier',
-                title: '配送员信息',
+                title: '代取员信息',
                 permiss: '5',
             },
         ]
