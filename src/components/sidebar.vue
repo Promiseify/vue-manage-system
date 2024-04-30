@@ -105,6 +105,11 @@ const items = [
                 title: '代取员信息',
                 permiss: '5',
             },
+            {
+                index: '/courierUser',
+                title: '代取员用户',
+                permiss: '8',
+            },
         ]
     },
     {

@@ -5,7 +5,7 @@
 			<el-icon v-if="sidebar.collapse"><Expand /></el-icon>
 			<el-icon v-else><Fold /></el-icon>
 		</div>
-		<div class="logo">“足不出户”-基于微信小程序的校园快递代取系统</div>
+		<div class="logo">基于微信小程序的校园快递代取系统</div>
 		<div class="header-right">
 			<div class="header-user-con">
 				<!-- 消息中心 -->

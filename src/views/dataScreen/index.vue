@@ -2,7 +2,7 @@
   <full-screen-container>
     <div class="m-data-screen">
       <div class="header">
-        <div class="header-bg-title">“足不出户”大数据展示平台</div>
+        <div class="header-bg-title">大数据展示平台</div>
         <div class="date">{{ timeDate }} {{ hourTime }} </div>
       </div>
       <div class="center">
