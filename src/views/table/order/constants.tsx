@@ -62,29 +62,40 @@ export const columns = [
   },
   {
     name: 'orderRemark',
-    label: '备注',
-    width: 80,
+    label: '备注(大小、重量)',
+    width: 150,
   },
   {
     name: 'orderStatus',
     label: '订单状态',
     width: 100,
+    slot: true,
   },
+  // {
+  //   name: 'orderUserId',
+  //   label: '用户ID',
+  //   width: 80,
+  // },
   {
-    name: 'orderUserId',
-    label: '用户ID',
-    width: 80,
-  },
-  {
-    name: 'orderManId',
-    label: '代收员ID',
+    name: 'username',
+    label: '用户名称',
     width: 100,
-    search: true,
-    valueType: 'input',
-    span: 8,
-    attrs: {
-      placeholder: '请输入代收员ID',
-    },
+  },
+  // {
+  //   name: 'orderManId',
+  //   label: '代取员ID',
+  //   width: 100,
+  //   search: true,
+  //   valueType: 'input',
+  //   span: 8,
+  //   attrs: {
+  //     placeholder: '请输入代取员ID',
+  //   },
+  // },
+  {
+    name: 'courierName',
+    label: '代取员名称',
+    width: 110,
   },
   {
     name: 'review',

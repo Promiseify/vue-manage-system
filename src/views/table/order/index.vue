@@ -25,6 +25,7 @@
         <el-image style="width: 80px; height: 80px" :src="scope.row.imageUrl" />
       </template>
       <template #orderType="scope">{{ orderTypeDict(scope.row.orderType) }}</template>
+      <template #orderStatus="scope">{{ orderStatusDict(scope.row.orderStatus) }}</template>
       <template #review="scope">
         <el-select v-model="scope.row.review" placeholder="Select" size="large" style="width: 150px"
           @change="reviewChange(scope.row)">
@@ -73,7 +74,7 @@
         <el-form-item label="用户ID" prop="orderUserId">
           <el-input v-model="ruleForm.orderUserId" />
         </el-form-item>
-        <el-form-item label="代收员ID" prop="orderManId">
+        <el-form-item label="代取员ID" prop="orderManId">
           <el-input v-model="ruleForm.orderManId" />
         </el-form-item>
         <el-form-item label="审核状态" prop="review">
@@ -226,6 +227,18 @@ const orderTypeDict = (orderType) => {
       return "快递"
     case 3:
       return "其他"
+  }
+}
+
+// 判断订单状态
+const orderStatusDict = (orderStatus) => {
+  switch (orderStatus) {
+    case 1:
+      return "待接单"
+    case 2:
+      return "派送中"
+    case 3:
+      return "派送完成"
   }
 }
 
