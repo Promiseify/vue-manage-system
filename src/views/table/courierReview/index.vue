@@ -21,6 +21,12 @@
           </el-button>
         </div>
       </template>
+      <template #studentCardImageUrl="scope">
+        <el-image style="width: 100px; height: 100px" :src="scope.row.studentCardImageUrl" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="[scope.row.studentCardImageUrl]" :initial-index="4" fit="cover" preview-teleported="true" />
+      </template>
+      <template #identityCardImageUrl="scope">
+        <el-image style="width: 100px; height: 100px" :src="scope.row.identityCardImageUrl" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="[scope.row.identityCardImageUrl]" :initial-index="4" fit="cover" preview-teleported="true" />
+      </template>
       <template #review="scope">
         <el-select v-model="scope.row.review" placeholder="Select" size="large" style="width: 150px"
           @change="reviewChange(scope.row)">
@@ -37,12 +43,12 @@
       <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
         <el-form-item label="代取员ID" prop="courierId">
-          <el-input v-model="ruleForm.courierId" />
+          <el-input v-model="ruleForm.courierId" disabled/>
         </el-form-item>
-        <el-form-item label="用户ID" prop="userId">
+        <!-- <el-form-item label="用户ID" prop="userId">
           <el-input v-model="ruleForm.userId" />
-        </el-form-item>
-        <el-form-item label="评价分数" prop="performanceRating">
+        </el-form-item> -->
+        <!-- <el-form-item label="评价分数" prop="performanceRating">
           <el-rate v-model="ruleForm.performanceRating" allow-half />
         </el-form-item>
         <el-form-item label="工作时间" prop="workSchedule">
@@ -50,6 +56,15 @@
         </el-form-item>
         <el-form-item label="服务范围" prop="serviceRange">
           <el-input v-model="ruleForm.serviceRange" />
+        </el-form-item> -->
+        <el-form-item label="身份证" prop="identityCard">
+          <el-input v-model="ruleForm.identityCard" />
+        </el-form-item>
+        <el-form-item label="学生证" prop="studentNumber">
+          <el-input v-model="ruleForm.studentNumber" />
+        </el-form-item>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="ruleForm.address" />
         </el-form-item>
         <el-form-item label="审核状态" prop="review">
           <el-select v-model="ruleForm.review" placeholder="请选择审核状态" size="default" style="width: 150px">
@@ -153,6 +168,9 @@ const ruleForm = reactive({
   workSchedule: null,
   serviceRange: null,
   review: null,
+  identityCard: null,
+  studentNumber: null,
+  address: null
 })
 
 const rules = reactive({
@@ -191,14 +209,36 @@ const handleClose = async () => {
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
+            // ElMessage.success('添加成功!')
+            // onSubmit({});
+          }
+        })
+        axios({
+          method: 'post',
+          url: 'http://localhost:10081/user/',
+          data: obj
+        }).then(res => {
+          if (res.data.code == 200) {
             ElMessage.success('添加成功!')
             onSubmit({});
           }
         })
       } else {
+
+        console.log(obj);
         axios({
           method: 'put',
           url: 'http://localhost:10081/courier/' + obj.courierId,
+          data: obj
+        }).then(res => {
+          if (res.data.code == 200) {
+            // ElMessage.success('修改成功!')
+            // onSubmit({});
+          }
+        })
+        axios({
+          method: 'post',
+          url: 'http://localhost:10081/user/update',
           data: obj
         }).then(res => {
           if (res.data.code == 200) {
@@ -261,6 +301,9 @@ const edit = (row) => {
   ruleForm.performanceRating = row.performanceRating
   ruleForm.workSchedule = row.workSchedule
   ruleForm.serviceRange = row.serviceRange
+  ruleForm.identityCard = row.identityCard
+  ruleForm.studentNumber = row.studentNumber
+  ruleForm.address = row.address
   ruleForm.review = row.review
 }
 

@@ -54,17 +54,17 @@ export const columns = [
     label: '收货地址',
     width: 160,
   },
-  {
-    name: 'orderTime',
-    label: '派送时间',
-    align: 'left',
-    width: 160,
-  },
-  {
-    name: 'orderRemark',
-    label: '备注(大小、重量)',
-    width: 150,
-  },
+  // {
+  //   name: 'orderTime',
+  //   label: '派送时间',
+  //   align: 'left',
+  //   width: 160,
+  // },
+  // {
+  //   name: 'orderRemark',
+  //   label: '备注(大小、重量)',
+  //   width: 150,
+  // },
   {
     name: 'orderStatus',
     label: '订单状态',
