@@ -97,12 +97,12 @@ export const columns = [
     label: '代取员名称',
     width: 110,
   },
-  {
-    name: 'review',
-    label: '审核状态',
-    slot: true,
-    width: 200,
-  },
+  // {
+  //   name: 'review',
+  //   label: '审核状态',
+  //   slot: true,
+  //   width: 200,
+  // },
   {
     name: 'operation',
     slot: true,

@@ -20,12 +20,23 @@ export const columns = [
     name: 'username',
     label: '用户名',
   },
-
   {
-    name: 'password',
-    label: '用户密码',
-    width: 160,
+    name: 'studentNumber',
+    label: '学生证',
   },
+  {
+    name: 'identityCard',
+    label: '身份证',
+  },
+  {
+    name: 'address',
+    label: '地址',
+  },
+  // {
+  //   name: 'password',
+  //   label: '用户密码',
+  //   width: 160,
+  // },
   {
     name: 'phone',
     label: '联系电话',
@@ -34,10 +45,10 @@ export const columns = [
     name: 'roleId',
     label: '角色信息',
     slot: true,
-    search: true,
+    // search: true,
     span: 8,
     options: [],
-    valueType: 'select',
+    // valueType: 'select',
   },
   {
     name: 'operation',

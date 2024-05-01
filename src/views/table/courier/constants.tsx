@@ -51,12 +51,12 @@ export const columns = [
     name: 'serviceRange',
     label: '服务范围',
   },
-  {
-    name: 'review',
-    label: '审核状态',
-    slot: true,
-    width: 200,
-  },
+  // {
+  //   name: 'review',
+  //   label: '审核状态',
+  //   slot: true,
+  //   width: 200,
+  // },
   {
     name: 'operation',
     slot: true,
