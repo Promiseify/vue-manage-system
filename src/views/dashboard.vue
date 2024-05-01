@@ -12,7 +12,7 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2024-04-24</span>
+						<span>{{ loginTime }}</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
@@ -128,6 +128,11 @@ axios.get('http://localhost:10081/order/').then(res => {
 const accessData = ref(null);
 axios.get('http://localhost:10081/log/count').then(res => {
 	accessData.value = res.data.data
+})
+
+const loginTime = ref();
+axios.get('http://localhost:10081/log/last').then(res => {
+	loginTime.value = res.data.data.loginTime.substring(0, 10)
 })
 
 
