@@ -87,6 +87,24 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/courierUser/index.vue'),
             },
+            {
+                path: '/courierReview',
+                name: 'courierReview',
+                meta: {
+                    title: '代取员审核',
+                    permiss: '9',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/courierReview/index.vue'),
+            },
+            {
+                path: '/orderReview',
+                name: 'orderReview',
+                meta: {
+                    title: '订单审核',
+                    permiss: '10',
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */  '../views/table/orderReview/index.vue'),
+            },
             // {
             //     path: '/charts',
             //     name: 'basecharts',

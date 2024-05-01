@@ -113,10 +113,28 @@ const items = [
         ]
     },
     {
-        icon: 'Wallet',
+        icon: 'Finished',
         index: '6',
-        title: '用户反馈管理',
+        title: '审核模块',
         permiss: '6',
+        subs: [
+            {
+                index: '/courierReview',
+                title: '代取员审核',
+                permiss: '9',
+            },
+            {
+                index: '/orderReview',
+                title: '订单审核',
+                permiss: '10',
+            },
+        ]
+    },
+    {
+        icon: 'Wallet',
+        index: '7',
+        title: '用户反馈管理',
+        permiss: '7',
         subs: [
             {
                 index: '/feedback',
